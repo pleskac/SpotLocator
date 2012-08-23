@@ -40,6 +40,7 @@ func main() {
 		//for _, tweet := range *list {
 		for n := len(*list) - 1; n >= 0; n-- {
 			tweet := (*list)[n]
+			fmt.Println("Looking at tweet".tweet.Id_str)
 			if strings.HasPrefix(tweet.Text, "Start") {
 				//Create a new trip
 				CreateTrip(tweet.Text[6 : len(tweet.Text)-1])
