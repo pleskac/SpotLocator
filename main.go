@@ -43,7 +43,7 @@ func main() {
 							param = req.URL.Path
 							firstRedirect = false
 						}
-						fmt.Println("REDIRECTED! param:", param)
+						//fmt.Println("REDIRECTED! param:", param)
 						return nil
 					},
 				}
