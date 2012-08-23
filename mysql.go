@@ -8,8 +8,8 @@ import (
 )
 
 //Need to add more parameters to insert into DB
-func AddGPS(longitude float32, latitude float32) {
-	fmt.Println("NEW LOCATION:", longitude, latitude)
+func AddGPS(longitude float32, latitude float32, message string) {
+	fmt.Println("NEW LOCATION:", longitude, latitude, message)
 
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 	err := db.Connect()
@@ -18,8 +18,8 @@ func AddGPS(longitude float32, latitude float32) {
 	}
 
 	//Need to add other column info
-	stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude) VALUES (?, ?)")
+	stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details) VALUES (?, ?, ?)")
 
-	stmt.Run(longitude, latitude)
+	stmt.Run(longitude, latitude, message)
 
 }

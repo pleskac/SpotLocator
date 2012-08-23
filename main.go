@@ -67,14 +67,14 @@ func main() {
 					continue
 				}
 
-				long, lat, err := GetGPSLocationFromId(param)
+				long, lat, msg, err := GetGPSLocationFromId(param)
 
 				if err != nil {
 					continue
 				}
 
 				//NEED TO IMPLEMENT THIS
-				AddGPS(long, lat)
+				AddGPS(long, lat, msg)
 			}
 		}
 
