@@ -34,9 +34,9 @@ func main() {
 				s := (tweet.Text)[0:20]
 
 				var param string
-				client = &http.Client{
-					CheckRedirect: func(req *http.Request, via []*http.Request) errot {
-						param = req.URL
+				client := &http.Client{
+					CheckRedirect: func(req *http.Request, via []*http.Request) error {
+						param = req.URL.Path
 					},
 				}
 
