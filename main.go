@@ -47,23 +47,19 @@ func main() {
 						return nil
 					},
 				}
-				fmt.Println("Twitter URL:", s)
 				_, err := client.Get(s)
 
-				//body, err := ioutil.ReadAll(resp.Body)
-				//fmt.Println(string(body))
 				if err != nil {
 					continue
 				}
-				fmt.Println("param:", param)
-				fmt.Println("Spot URL:", param)
 
 				long, lat, err := GetGPSLocationFromId(param)
 
 				if err != nil {
 					continue
 				}
-				fmt.Println("NEW LOCATION:", long, lat)
+
+				AddGPS(long, lat)
 			}
 		}
 
