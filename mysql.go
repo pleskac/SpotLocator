@@ -7,6 +7,7 @@ import (
 	// _ "github.com/ziutek/mymysql/thrsafe" // Thread safe engine
 )
 
+//Need to add more parameters to insert into DB
 func AddGPS(longitude float32, latitude float32) {
 	fmt.Println("NEW LOCATION:", longitude, latitude)
 
@@ -16,10 +17,9 @@ func AddGPS(longitude float32, latitude float32) {
 		panic(err)
 	}
 
+	//Need to add other column info
 	stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude) VALUES (?, ?)")
 
 	stmt.Run(longitude, latitude)
-
-	//NEED TO IMPLEMENT THIS!!
 
 }

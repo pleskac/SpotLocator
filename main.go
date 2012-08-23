@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "errors"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -9,18 +9,32 @@ import (
 
 var client *http.Client
 var param string
+var latestId string
 
 func main() {
+	latestId = ""
 	for {
 
 		//Get all new tweets
-		list, err := GetNewTweets("")
+		list, err := GetNewTweets(latestId)
+
+		if list != nil && len(*list) > 0 {
+			latestId = (*list)[0].Id_str
+		}
+		fmt.Println("Latest Tweet:", latestId)
+		//TODO: make sure the latestId is correct
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
 
 		if err != nil {
 			continue
 		}
 
-		//sort the tweets
+		//TODO: sort the tweets
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
+		/////////////////////////////////////////////////////
 
 		//put the new tweets in the DB
 		for _, tweet := range *list {
