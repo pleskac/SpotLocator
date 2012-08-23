@@ -40,8 +40,10 @@ func main() {
 		for _, tweet := range *list {
 			if strings.HasPrefix(tweet.Text, "Start") {
 				//Create a new trip
+				CreateTrip(tweet.Text[6 : len(tweet.Text)-1])
 
 			} else if strings.HasPrefix(tweet.Text, "End") {
+				EndTrips()
 				//End the current trip
 
 			} else if strings.HasPrefix((tweet.Text), "http://t.co/") {

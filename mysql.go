@@ -17,12 +17,11 @@ func AddGPS(longitude float32, latitude float32, message string) {
 		panic(err)
 	}
 
-	//Get the current trip
+	//Get the current trip, if it exists
 	rows, _, err := db.Query("select id from trips where current = 1")
 	if err != nil {
 		panic(err)
 	}
-
 	tripKey := -1
 	if len(rows) > 1 {
 		fmt.Println("More than one row!!")
@@ -50,4 +49,29 @@ func AddGPS(longitude float32, latitude float32, message string) {
 		}
 	}
 
+}
+
+func CreateTrip(name string) {
+	//End all trips
+	EndTrips()
+
+	//Create new trip, set it as current trip
+}
+
+func EndTrips() {
+	//end all trips
+	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
+	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")
+	if err != nil {
+		panic(err)
+	}
+	for _, row := range rows {
+		fmt.Println("REMOVING A CURRENT TRIP!")
+		tripId := row.Str(0)
+		stmt, err := db.Prepare("UPDATE trips SET current = 0 WHERE id=" + tripId)
+		_, err = stmt.Run()
+		if err != nil {
+			panic(err)
+		}
+	}
 }
