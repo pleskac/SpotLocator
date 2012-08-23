@@ -20,7 +20,7 @@ type Messages struct {
 }
 
 func GetGPSLocationFromId(id string) (float32, float32, error) {
-	url := "http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location/" + id
+	url := "http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location" + id
 	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {

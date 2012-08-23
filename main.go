@@ -55,8 +55,8 @@ func main() {
 				if err != nil {
 					continue
 				}
-				fmt.Println("param:", param[1:len(param)])
-				fmt.Println("Spot URL:", param[1:len(param)])
+				fmt.Println("param:", param)
+				fmt.Println("Spot URL:", param)
 
 				GetGPSLocationFromId(param)
 				fmt.Println("NEW LOCATION:", tweet)
