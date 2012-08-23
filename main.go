@@ -38,6 +38,7 @@ func main() {
 
 		//put the new tweets in the DB
 		//for _, tweet := range *list {
+		fmt.Println("LENGTH: ", len(*list)-1)
 		for n := len(*list) - 1; n >= 0; n-- {
 			tweet := (*list)[n]
 			fmt.Println("Looking at tweet".tweet.Id_str)
