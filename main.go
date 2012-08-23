@@ -32,8 +32,8 @@ func main() {
 				//If no current trip, GPS data is stored with no pointer to a trip
 
 				s := (tweet.Text)[0:20]
-				
-				param string
+
+				var param string
 				client = &http.Client{
 					CheckRedirect: func(req *http.Request, via []*http.Request) errot {
 						param = req.URL
@@ -43,7 +43,7 @@ func main() {
 				fmt.Println("URL:", param)
 
 				resp, err := http.Get(s)
-				
+
 				GetGPSLocationFromId(param)
 				fmt.Println("NEW LOCATION:", tweet)
 			}
