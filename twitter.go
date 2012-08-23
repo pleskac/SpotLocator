@@ -10,9 +10,9 @@ import (
 type TweetList []Tweet
 
 type Tweet struct {
-	Id        string `json:"id_str"`
-	Text      string `json:"text"`
-	Timestamp string `json:"created_at"`
+	Id_str     string
+	Text       string
+	Created_at string
 }
 
 func GetNewTweets() (*TweetList, error) {
