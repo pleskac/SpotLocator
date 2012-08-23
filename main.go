@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -29,9 +30,21 @@ func main() {
 			} else if strings.HasPrefix((tweet.Text), "http://t.co/") {
 				//Add location to current trip
 				//If no current trip, GPS data is stored with no pointer to a trip
-				s := (tweet.Text)[11:16]
-				fmt.Println(s)
-				GetGPSLocationFromId(s)
+
+				s := (tweet.Text)[0:20]
+				
+				param string
+				client = &http.Client{
+					CheckRedirect: func(req *http.Request, via []*http.Request) errot {
+						param = req.URL
+					},
+				}
+
+				fmt.Println("URL:", param)
+
+				resp, err := http.Get(s)
+				
+				GetGPSLocationFromId(param)
 				fmt.Println("NEW LOCATION:", tweet)
 			}
 		}
