@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+var client *http.Client
+
 func main() {
 	for {
 
@@ -34,15 +36,19 @@ func main() {
 				s := (tweet.Text)[0:20]
 
 				var param string
-				client := &http.Client{
+				client = &http.Client{
 					CheckRedirect: func(req *http.Request, via []*http.Request) error {
 						param = req.URL.Path
+						return nil
 					},
 				}
 
 				fmt.Println("URL:", param)
 
-				resp, err := http.Get(s)
+				_, err := http.Get(s)
+				if err != nil {
+					continue
+				}
 
 				GetGPSLocationFromId(param)
 				fmt.Println("NEW LOCATION:", tweet)
