@@ -48,7 +48,7 @@ func main() {
 				resp, err := http.Get(s)
 
 				body, err := ioutil.ReadAll(resp.Body)
-				fmt.Println(body)
+				fmt.Println(string(body))
 				if err != nil {
 					continue
 				}
