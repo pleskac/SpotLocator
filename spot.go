@@ -46,8 +46,9 @@ func GetGPSLocationFromId(id string) (float32, float32, error) {
 		fmt.Println("Error decoding:", err)
 		return 0.0, 0.0, err
 	}
-	fmt.Println("RESPOSE: ", res)
-	fmt.Println("Latitude:", res.Response.MessagesResponse.Messages.Message.Latitude)
-
-	return 0.0, 0.0, nil
+	//fmt.Println("RESPOSE: ", res)
+	//fmt.Println("Latitude:", res.Response.MessagesResponse.Messages.Message.Latitude)
+	long := res.Response.MessagesResponse.Messages.Message.Longitude
+	lat := res.Response.MessagesResponse.Messages.Message.Latitude
+	return long, lat, nil
 }

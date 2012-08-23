@@ -19,7 +19,7 @@ func GetNewTweets() (*TweetList, error) {
 	//read last tweet id
 	resp, err := http.Get("http://twitter.com/statuses/user_timeline/markpleskac.json?include_entities=true&include_rts=true&trim_user=true")
 	if err != nil {
-		fmt.Println("Error pulling new tweets:", err)
+		//fmt.Println("Error pulling new tweets:", err)
 		return nil, err
 	}
 

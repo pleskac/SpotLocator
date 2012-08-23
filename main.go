@@ -58,8 +58,8 @@ func main() {
 				fmt.Println("param:", param)
 				fmt.Println("Spot URL:", param)
 
-				GetGPSLocationFromId(param)
-				fmt.Println("NEW LOCATION:", tweet)
+				long, lat := GetGPSLocationFromId(param)
+				fmt.Println("NEW LOCATION:", long, lat)
 			}
 		}
 
