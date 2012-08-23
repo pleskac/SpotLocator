@@ -43,12 +43,12 @@ func main() {
 					},
 				}
 
-				fmt.Println("URL:", param)
-
 				_, err := http.Get(s)
 				if err != nil {
 					continue
 				}
+
+				fmt.Println("URL:", param)
 
 				GetGPSLocationFromId(param)
 				fmt.Println("NEW LOCATION:", tweet)
