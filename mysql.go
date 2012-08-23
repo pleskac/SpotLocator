@@ -61,6 +61,11 @@ func CreateTrip(name string) {
 func EndTrips() {
 	//end all trips
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
+	err := db.Connect()
+	if err != nil {
+		panic(err)
+	}
+
 	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")
 	if err != nil {
 		panic(err)
