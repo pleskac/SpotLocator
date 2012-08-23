@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-	_ "io/ioutil"
 	"net/http"
 	"strings"
 	"time"
