@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
@@ -44,7 +45,10 @@ func main() {
 					},
 				}
 				fmt.Println("Twitter URL:", s)
-				_, err := http.Get(s)
+				resp, err := http.Get(s)
+
+				body, err := ioutil.ReadAll(resp.Body)
+				fmt.Println(body)
 				if err != nil {
 					continue
 				}
