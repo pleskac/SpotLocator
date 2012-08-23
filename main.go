@@ -39,6 +39,7 @@ func main() {
 				client = &http.Client{
 					CheckRedirect: func(req *http.Request, via []*http.Request) error {
 						param = req.URL.Path
+						fmt.Println("REDIRECTED! param:", param)
 						return nil
 					},
 				}
