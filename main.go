@@ -29,7 +29,9 @@ func main() {
 			} else if strings.HasPrefix((tweet.Text), "http://t.co/") {
 				//Add location to current trip
 				//If no current trip, GPS data is stored with no pointer to a trip
-
+				s := (tweet.Text)[11:16]
+				fmt.Println(s)
+				GetGPSLocationFromId(s)
 				fmt.Println("NEW LOCATION:", tweet)
 			}
 		}
