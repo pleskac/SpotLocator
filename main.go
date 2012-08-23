@@ -40,7 +40,7 @@ func main() {
 				client = &http.Client{
 					CheckRedirect: func(req *http.Request, via []*http.Request) error {
 						if firstRedirect {
-							param = req.URL.Path[1:len(param)]
+							param = req.URL.Path
 							firstRedirect = false
 						}
 						fmt.Println("REDIRECTED! param:", param)
@@ -55,8 +55,8 @@ func main() {
 				if err != nil {
 					continue
 				}
-
-				fmt.Println("Spot URL:", param)
+				fmt.Println("param:", param)
+				fmt.Println("Spot URL:", param[1:len(param)])
 
 				GetGPSLocationFromId(param)
 				fmt.Println("NEW LOCATION:", tweet)
