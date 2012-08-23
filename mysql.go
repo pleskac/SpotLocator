@@ -10,7 +10,7 @@ import (
 func AddGPS(longitude float32, latitude float32) {
 	fmt.Println("NEW LOCATION:", longitude, latitude)
 
-	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", gps)
+	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 
 	//NEED TO IMPLEMENT THIS!!
 
