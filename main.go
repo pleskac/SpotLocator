@@ -58,7 +58,11 @@ func main() {
 				fmt.Println("param:", param)
 				fmt.Println("Spot URL:", param)
 
-				long, lat := GetGPSLocationFromId(param)
+				long, lat, err := GetGPSLocationFromId(param)
+
+				if err != nil {
+					continue
+				}
 				fmt.Println("NEW LOCATION:", long, lat)
 			}
 		}
