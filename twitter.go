@@ -23,12 +23,13 @@ func GetNewTweets() (*TweetList, error) {
 		return nil, err
 	}
 
+	//Closes the http response at the end of the function
 	defer resp.Body.Close()
-	//body, err := ioutil.ReadAll(resp.Body)	
 
 	dec := json.NewDecoder(resp.Body)
 	list := new(TweetList)
 
+	//Decodes the JSON, if there is an error return it
 	if err = dec.Decode(list); err != nil {
 		fmt.Println("Error decoding:", err)
 		return nil, err

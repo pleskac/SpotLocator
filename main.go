@@ -8,24 +8,34 @@ import (
 
 func main() {
 	for {
-		fmt.Println("Pulling tweets... ")
+
+		//Get all new tweets
 		list, err := GetNewTweets()
 
 		if err != nil {
 			continue
 		}
 
+		//sort the tweets
+
+		//put the new tweets in the DB
 		for _, tweet := range *list {
 			if strings.HasPrefix(tweet.Text, "Start") {
+				//Create a new trip
 
 			} else if strings.HasPrefix(tweet.Text, "End") {
+				//End the current trip
 
 			} else if strings.HasPrefix((tweet.Text), "http://t.co/") {
+				//Add location to current trip
+				//If no current trip, GPS data is stored with no pointer to a trip
+
 				fmt.Println("NEW LOCATION:", tweet)
 			}
 		}
 
-		//SaveTweets(newTweets)
+		//Wait 10 seconds
+		//TODO: increase this time
 		time.Sleep(10000 * time.Millisecond)
 	}
 }
