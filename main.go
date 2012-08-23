@@ -43,7 +43,8 @@ func main() {
 							firstRedirect = false
 						}
 						//fmt.Println("REDIRECTED! param:", param)
-						return errors.New("don't follow")
+						//return errors.New("don't follow")
+						return nil
 					},
 				}
 				_, err := client.Get(s)
