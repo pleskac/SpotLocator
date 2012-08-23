@@ -17,11 +17,26 @@ func AddGPS(longitude float32, latitude float32, message string) {
 		panic(err)
 	}
 
-	//Need to add other column info
+	//Get the current trip
+	rows, _, err := db.Query("select id from trips where current = 1")
+	if err != nil {
+		panic(err)
+	}
+
+	var tripKey int
+	if len(rows) > 1 {
+		fmt.Println("More than one row!!")
+	} else if len(rows) == 0 {
+		fmt.Println("0 rows!")
+	} else {
+		//get dat foreign key to dat trip]
+
+		tripKey = (rows[0]).Int(0)
+	}
+	fmt.Println("Trip Key:", tripKey)
+	//Add the GPS row
 	stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details) VALUES (?, ?, ?)")
-
 	_, err = stmt.Run(longitude, latitude, message)
-
 	if err != nil {
 		panic(err)
 	}
