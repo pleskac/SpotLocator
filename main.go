@@ -38,7 +38,7 @@ func main() {
 
 		//put the new tweets in the DB
 		//for _, tweet := range *list {
-		for n := len(*list); n >= 0; n-- {
+		for n := len(*list) - 1; n >= 0; n-- {
 			tweet := (*list)[n]
 			if strings.HasPrefix(tweet.Text, "Start") {
 				//Create a new trip
