@@ -20,7 +20,7 @@ func AddGPS(longitude float32, latitude float32, message string) {
 	//Need to add other column info
 	stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details) VALUES (?, ?, ?)")
 
-	_, err = stmt.Run(longitude, latitude, "'"+message+"'")
+	_, err = stmt.Run(longitude, latitude, message)
 
 	if err != nil {
 		panic(err)
