@@ -56,6 +56,7 @@ func CreateTrip(name string) {
 	EndTrips()
 
 	//Create new trip, set it as current trip
+	//TODO: do this!
 }
 
 func EndTrips() {

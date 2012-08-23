@@ -37,8 +37,7 @@ func main() {
 		/////////////////////////////////////////////////////
 
 		//put the new tweets in the DB
-		//for _, tweet := range *list {
-		fmt.Println("LENGTH: ", len(*list)-1)
+		//iterate through the tweets backwards so they are oldest to newest
 		for n := len(*list) - 1; n >= 0; n-- {
 			tweet := (*list)[n]
 			fmt.Println("Looking at tweet", tweet.Id_str)
@@ -47,8 +46,8 @@ func main() {
 				CreateTrip(tweet.Text[6 : len(tweet.Text)-1])
 
 			} else if strings.HasPrefix(tweet.Text, "End") {
-				EndTrips()
 				//End the current trip
+				EndTrips()
 
 			} else if strings.HasPrefix((tweet.Text), "http://t.co/") {
 				//Add location to current trip
