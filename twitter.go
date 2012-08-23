@@ -15,9 +15,17 @@ type Tweet struct {
 	Created_at string
 }
 
-func GetNewTweets() (*TweetList, error) {
+func GetNewTweets(lastTweet string) (*TweetList, error) {
 	//read last tweet id
-	resp, err := http.Get("http://twitter.com/statuses/user_timeline/markpleskac.json?include_entities=true&include_rts=true&trim_user=true")
+	var resp *http.Response
+	var err error
+	if lastTweet == "" {
+		resp, err = http.Get("http://twitter.com/statuses/user_timeline/markpleskac.json?include_entities=true&include_rts=true&trim_user=true")
+	} else {
+		fmt.Println("SINCE LAST TWEET!!!!", lastTweet)
+		resp, err = http.Get("http://twitter.com/statuses/user_timeline/markpleskac.json?include_entities=true&include_rts=true&trim_user=true&since_id=" + lastTweet)
+	}
+
 	if err != nil {
 		//fmt.Println("Error pulling new tweets:", err)
 		return nil, err

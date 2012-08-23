@@ -14,7 +14,7 @@ func main() {
 	for {
 
 		//Get all new tweets
-		list, err := GetNewTweets()
+		list, err := GetNewTweets("")
 
 		if err != nil {
 			continue
