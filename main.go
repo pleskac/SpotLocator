@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 	"time"
@@ -42,7 +43,7 @@ func main() {
 							firstRedirect = false
 						}
 						//fmt.Println("REDIRECTED! param:", param)
-						return nil
+						return errors.New("don't follow")
 					},
 				}
 				_, err := client.Get(s)
