@@ -20,7 +20,9 @@ type Messages struct {
 }
 
 func GetGPSLocationFromId(id string) (float32, float32, error) {
-	resp, err := http.Get("http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location/" + id)
+	url := "http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location/" + id
+	fmt.Println(url)
+	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Error pulling GPS location:", err)
 		return 0.0, 0.0, err
