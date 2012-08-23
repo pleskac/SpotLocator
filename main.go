@@ -36,10 +36,13 @@ func main() {
 				//If no current trip, GPS data is stored with no pointer to a trip
 
 				s := (tweet.Text)[0:20]
-
+				firstRedirect := true
 				client = &http.Client{
 					CheckRedirect: func(req *http.Request, via []*http.Request) error {
-						param = req.URL.Path
+						if firstRedirect {
+							param = req.URL.Path[1:len(param)]
+							firstRedirect = false
+						}
 						fmt.Println("REDIRECTED! param:", param)
 						return nil
 					},
