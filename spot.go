@@ -6,17 +6,18 @@ import (
 	"net/http"
 )
 
+/*
 type Response struct {
 	MessagesResponse MessagesResponse
 }
 
 type MessagesResponse struct {
 	Messages Messages
-}
+}*/
 
-type Messages struct {
-	latitude  float32
-	longitude float32
+type GPS struct {
+	Latitude float32 `json:"response>messageResponse>mesages>message>latitude"`
+	//Longitude float32
 }
 
 func GetGPSLocationFromId(id string) (float32, float32, error) {
@@ -32,14 +33,14 @@ func GetGPSLocationFromId(id string) (float32, float32, error) {
 	defer resp.Body.Close()
 
 	dec := json.NewDecoder(resp.Body)
-	res := new(Response)
+	res := new(GPS)
 
 	if err = dec.Decode(res); err != nil {
 		fmt.Println("Error decoding:", err)
 		return 0.0, 0.0, err
 	}
 	fmt.Println("RESPOSE: ", res)
-	fmt.Println("Latitude:", res.MessagesResponse.Messages.latitude)
+	fmt.Println("Latitude:", res.Latitude)
 
 	return 0.0, 0.0, nil
 }
