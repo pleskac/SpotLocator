@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errors"
+	_ "errors"
 	"net/http"
 	"strings"
 	"time"
@@ -59,6 +59,7 @@ func main() {
 					continue
 				}
 
+				//NEED TO IMPLEMENT THIS
 				AddGPS(long, lat)
 			}
 		}
