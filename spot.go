@@ -6,6 +6,10 @@ import (
 	"net/http"
 )
 
+type WTFISTHIS struct {
+	Response Response
+}
+
 type Response struct {
 	MessagesResponse MessagesResponse
 }
@@ -36,14 +40,14 @@ func GetGPSLocationFromId(id string) (float32, float32, error) {
 	defer resp.Body.Close()
 
 	dec := json.NewDecoder(resp.Body)
-	res := new(Response)
+	res := new(WTFISTHIS)
 
 	if err = dec.Decode(res); err != nil {
 		fmt.Println("Error decoding:", err)
 		return 0.0, 0.0, err
 	}
 	fmt.Println("RESPOSE: ", res)
-	fmt.Println("Latitude:", res.MessagesResponse.Messages.Message.Latitude)
+	fmt.Println("Latitude:", res.Response.MessagesResponse.Messages.Message.Latitude)
 
 	return 0.0, 0.0, nil
 }
