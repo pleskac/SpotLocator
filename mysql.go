@@ -15,6 +15,11 @@ func AddGPS(longitude float32, latitude float32) {
 	if err != nil {
 		panic(err)
 	}
+
+	stmt, err := db.Prepare("INSERT INTO gps VALUES (?, ?)")
+
+	stmt.Run("longitude", longitude)
+
 	//NEED TO IMPLEMENT THIS!!
 
 }
