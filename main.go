@@ -12,7 +12,8 @@ var param string
 var latestId string
 
 func main() {
-	latestId = ""
+	latestId = GetLatestTweet()
+
 	for {
 
 		//Get all new tweets
@@ -20,6 +21,8 @@ func main() {
 
 		if list != nil && len(*list) > 0 {
 			latestId = (*list)[0].Id_str
+			SaveLatestTweet(latestId) //This could be in a new thread... only done for restarts
+
 		}
 		fmt.Println("Latest Tweet:", latestId)
 

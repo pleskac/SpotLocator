@@ -7,6 +7,57 @@ import (
 	// _ "github.com/ziutek/mymysql/thrsafe" // Thread safe engine
 )
 
+func GetLatestTweet() string {
+	//set up database connection
+	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
+	err := db.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	//query
+	rows, _, err := db.Query("select id from latestTweet")
+	if err != nil {
+		panic(err)
+	}
+
+	if len(rows) > 1 {
+		fmt.Println("More than one row!! WRONG!")
+
+	} else if len(rows) == 0 {
+		fmt.Println("0 rows!")
+		return ""
+	} else {
+		//get dat foreign key to dat trip
+		fmt.Println("Latest Tweet:", (rows[0]).Str(0))
+		return (rows[0]).Str(0)
+	}
+
+	return ""
+}
+
+func SaveLatestTweet(tweetId string) {
+	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
+	err := db.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	//delete all rows
+	stmt, err := db.Prepare("DELETE FROM latestTweet")
+	_, err = stmt.Run()
+	if err != nil {
+		panic(err)
+	}
+
+	//insert new row
+	stmt, err = db.Prepare("INSERT INTO latestTweet (id) VALUES (?)")
+	_, err = stmt.Run(latestId)
+	if err != nil {
+		panic(err)
+	}
+}
+
 //Need to add more parameters to insert into DB
 func AddGPS(longitude float32, latitude float32, message string) {
 	fmt.Println("NEW LOCATION:", longitude, latitude, message)
