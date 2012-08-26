@@ -34,9 +34,13 @@ func main() {
 		//iterate through the tweets backwards so they are oldest to newest
 		for n := len(*list) - 1; n >= 0; n-- {
 			tweet := (*list)[n]
-			fmt.Println("Looking at tweet", tweet.Id_str)
-			if strings.HasPrefix(tweet.Text, "Start") {
+			fmt.Println("Looking at tweet", tweet.Id_str, tweet.Text)
+			//|| strings.HasPrefix(tweet.Text, "Create") || strings.HasPrefix(tweet.Text, "create")
+			if strings.HasPrefix(tweet.Text, "Start") || strings.HasPrefix(tweet.Text, "start") {
 				//Create a new trip
+
+				fmt.Println("want to start trip")
+				fmt.Println(tweet.Text[6 : len(tweet.Text)-1])
 				CreateTrip(tweet.Text[6 : len(tweet.Text)-1])
 
 			} else if strings.HasPrefix(tweet.Text, "End") {
