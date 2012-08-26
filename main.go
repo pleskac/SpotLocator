@@ -38,10 +38,7 @@ func main() {
 			//|| strings.HasPrefix(tweet.Text, "Create") || strings.HasPrefix(tweet.Text, "create")
 			if strings.HasPrefix(tweet.Text, "Start") || strings.HasPrefix(tweet.Text, "start") {
 				//Create a new trip
-
-				fmt.Println("want to start trip")
-				fmt.Println(tweet.Text[6 : len(tweet.Text)-1])
-				CreateTrip(tweet.Text[6 : len(tweet.Text)-1])
+				CreateTrip(tweet.Text[6:len(tweet.Text)])
 
 			} else if strings.HasPrefix(tweet.Text, "End") {
 				//End the current trip
