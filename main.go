@@ -40,7 +40,7 @@ func main() {
 				//Create a new trip
 				CreateTrip(tweet.Text[6:len(tweet.Text)])
 
-			} else if strings.HasPrefix(tweet.Text, "End") {
+			} else if strings.HasPrefix(tweet.Text, "End") || strings.HasPrefix(tweet.Text, "end") {
 				//End the current trip
 				EndTrips()
 
