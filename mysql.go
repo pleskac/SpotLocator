@@ -107,6 +107,7 @@ func CreateTrip(name string) {
 	EndTrips()
 
 	//Create new trip, set it as current trip
+	fmt.Println("starting trip!")
 
 	//set up database connection
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
@@ -115,6 +116,8 @@ func CreateTrip(name string) {
 		panic(err)
 	}
 
+	//insert
+	fmt.Println("Name:", name)
 	stmt, err := db.Prepare("INSERT INTO trips (name, details, current) VALUES (?, ?, ?)")
 	_, err = stmt.Run(name, "", 1)
 	if err != nil {
@@ -123,6 +126,7 @@ func CreateTrip(name string) {
 }
 
 func EndTrips() {
+	fmt.Println("Ending all trips")
 	//end all trips
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 	err := db.Connect()
