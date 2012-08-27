@@ -12,6 +12,8 @@ var param string
 var latestId string
 
 func main() {
+	go endpoint()
+
 	latestId = GetLatestTweet()
 
 	for {
