@@ -26,7 +26,7 @@ func main() {
 			SaveLatestTweet(latestId) //This could be in a new thread... only done for restarts
 
 		}
-		fmt.Println("Latest Tweet:", latestId)
+		//fmt.Println("Latest Tweet:", latestId)
 
 		if err != nil {
 			continue
@@ -82,6 +82,6 @@ func main() {
 
 		//Wait 10 seconds
 		//TODO: increase this time
-		time.Sleep(10000 * time.Millisecond)
+		time.Sleep(1000000 * time.Millisecond)
 	}
 }
