@@ -186,7 +186,7 @@ func GetCurrentTrip() Trip {
 
 	//Get the GPS coordinates of that trip
 	id := (rows[0]).Int(0)
-	rows, _, err = db.Query("select * from gps where trip = " + id)
+	rows, _, err = db.Query("select * from gps where trip =", id)
 	if err != nil {
 		panic(err)
 	}
