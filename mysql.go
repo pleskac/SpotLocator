@@ -185,7 +185,7 @@ func GetCurrentTrip() Trip {
 	name := (rows[0]).Str(1)
 	fmt.Println("NAME:", name)
 
-	myTrip := Trip{"test name!", nil}
+	myTrip := Trip{name, nil}
 	myTrip.Coordinates = append(myTrip.Coordinates, Location{"1", "2"})
 
 	return myTrip
