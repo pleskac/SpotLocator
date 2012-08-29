@@ -161,5 +161,30 @@ func EndTrips() {
 }
 
 func GetCurrentTrip() Trip {
-	return Trip{}
+	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
+	err := db.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	//Get the current trip, if it exists
+	rows, _, err := db.Query("select * from trips where current = 1")
+	if err != nil {
+		panic(err)
+	}
+
+	if len(rows) > 1 {
+		fmt.Println("More than one row!! WRONG!")
+		return Trip{}
+	} else if len(rows) == 0 {
+		fmt.Println("0 rows! No current trip to return")
+		return Trip{}
+	}
+
+	//THIS DOES NOT WORK!!!!
+	name := (rows[0]).Str(1)
+
+	myTrip := Trip{name, nil}
+
+	return myTrip
 }
