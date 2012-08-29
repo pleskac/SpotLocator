@@ -181,12 +181,19 @@ func GetCurrentTrip() Trip {
 		return Trip{}
 	}
 
-	//THIS DOES NOT WORK!!!!
 	name := (rows[0]).Str(1)
-	fmt.Println("NAME:", name)
-
 	myTrip := Trip{name, nil}
-	myTrip.Coordinates = append(myTrip.Coordinates, Location{"1", "2"})
+
+	//Get the GPS coordinates of that trip
+	id := (rows[0]).Int(0)
+	rows, _, err = db.Query("select * from gps where trip = " + id)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, row := range rows {
+		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Str(2), row.Str(3)})
+	}
 
 	return myTrip
 }
