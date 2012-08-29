@@ -6,21 +6,14 @@ import (
 	"net/http"
 )
 
-type Info struct {
-	Trip      string
-	Longitude string
-	Latitude  string
-}
-
 func tripOutput(w http.ResponseWriter, r *http.Request) {
-	output := []Info{Info{}, Info{}}
+	output := GetCurrentTrip() //[]Trip{} //{Trip{}, Trip{}}
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
 }
 
 func endpoint() {
-
 	// http://localhost:8080/trip.json
 
 	http.HandleFunc("/trip.json", tripOutput)

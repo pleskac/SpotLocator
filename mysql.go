@@ -7,6 +7,17 @@ import (
 	// _ "github.com/ziutek/mymysql/thrsafe" // Thread safe engine
 )
 
+type Location struct {
+	//other info
+	Longitude string
+	Latitude  string
+}
+
+type Trip struct {
+	TripName    string
+	Coordinates []Location
+}
+
 func GetLatestTweet() string {
 	//set up database connection
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
@@ -147,4 +158,8 @@ func EndTrips() {
 			panic(err)
 		}
 	}
+}
+
+func GetCurrentTrip() Trip {
+	return Trip{}
 }
