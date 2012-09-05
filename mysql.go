@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ziutek/mymysql/mysql"
-	_ "github.com/ziutek/mymysql/native" // Native engine
+	_ "github.com/ziutek/mymysql/native"
 	// _ "github.com/ziutek/mymysql/thrsafe" // Thread safe engine
 )
 
@@ -15,6 +15,9 @@ type Location struct {
 
 type Trip struct {
 	TripName    string
+	Zoom        string
+	CenterLong  string
+	CenterLat   string
 	Coordinates []Location
 }
 
@@ -182,7 +185,7 @@ func GetCurrentTrip() Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	myTrip := Trip{name, nil}
+	myTrip := Trip{name, "10", "-96.7", "40.8", nil}
 
 	//Get the GPS coordinates of that trip
 	id := (rows[0]).Str(0)
@@ -192,9 +195,35 @@ func GetCurrentTrip() Trip {
 		panic(err)
 	}
 
+	latLow := 90.0     //the MAX lat value
+	latHigh := -90.0   //the MIN lat value
+	longLow := 180.0   //the MAX long value
+	longHigh := -180.0 //the MIN long value
+
 	for _, row := range rows {
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Str(2), row.Str(3)})
+
+		//CENTER AND SCALE THE MAP
+		//long
+		if longLow > row.Float(2) {
+			longLow = row.Float(2)
+		} else if longHigh < row.Float(2) {
+			longHigh = row.Float(2)
+		}
+
+		//lat
+		if latLow > row.Float(3) {
+			latLow = row.Float(3)
+		} else if latHigh < row.Float(3) {
+			latHigh = row.Float(3)
+		}
 	}
+
+	averageLat := (longLow + longHigh) / 2
+	averageLong := (latLow + latHigh) / 2
+
+	myTrip.CenterLong = fmt.Sprintf(averageLong)
+	myTrip.CenterLat = fmt.Sprintf(averageLong)
 
 	return myTrip
 }
