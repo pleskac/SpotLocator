@@ -16,8 +16,8 @@ type Location struct {
 type Trip struct {
 	TripName    string
 	Zoom        string
-	CenterLong  float
-	CenterLat   float
+	CenterLong  float32
+	CenterLat   float32
 	Coordinates []Location
 }
 
