@@ -16,8 +16,8 @@ type Location struct {
 type Trip struct {
 	TripName    string
 	Zoom        string
-	CenterLong  string
-	CenterLat   string
+	CenterLong  float
+	CenterLat   float
 	Coordinates []Location
 }
 
@@ -222,8 +222,8 @@ func GetCurrentTrip() Trip {
 	averageLat := (longLow + longHigh) / 2
 	averageLong := (latLow + latHigh) / 2
 
-	myTrip.CenterLong = fmt.Sprintf("%f", averageLong)
-	myTrip.CenterLat = fmt.Sprintf("%f", averageLat)
+	myTrip.CenterLong = averageLong
+	myTrip.CenterLat = averageLat
 
 	return myTrip
 }
