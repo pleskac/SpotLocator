@@ -222,8 +222,8 @@ func GetCurrentTrip() Trip {
 	averageLat := (longLow + longHigh) / 2
 	averageLong := (latLow + latHigh) / 2
 
-	myTrip.CenterLong = fmt.Sprintf(averageLong)
-	myTrip.CenterLat = fmt.Sprintf(averageLong)
+	myTrip.CenterLong = fmt.Sprintf("%f", averageLong)
+	myTrip.CenterLat = fmt.Sprintf("%f", averageLong)
 
 	return myTrip
 }
