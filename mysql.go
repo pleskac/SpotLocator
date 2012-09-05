@@ -16,8 +16,8 @@ type Location struct {
 type Trip struct {
 	TripName    string
 	Zoom        string
-	CenterLong  float32
-	CenterLat   float32
+	CenterLong  float64
+	CenterLat   float64
 	Coordinates []Location
 }
 
@@ -185,7 +185,7 @@ func GetCurrentTrip() Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	myTrip := Trip{name, "10", "-96.7", "40.8", nil}
+	myTrip := Trip{name, "10", -96.7, 40.8, nil}
 
 	//Get the GPS coordinates of that trip
 	id := (rows[0]).Str(0)
