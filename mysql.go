@@ -9,13 +9,13 @@ import (
 
 type Location struct {
 	//other info
-	Longitude string
-	Latitude  string
+	Longitude float64
+	Latitude  float64
 }
 
 type Trip struct {
 	TripName    string
-	Zoom        string
+	Zoom        int
 	CenterLong  float64
 	CenterLat   float64
 	Coordinates []Location
@@ -185,7 +185,7 @@ func GetCurrentTrip() Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	myTrip := Trip{name, "10", -96.7, 40.8, nil}
+	myTrip := Trip{name, 10, -96.7, 40.8, nil}
 
 	//Get the GPS coordinates of that trip
 	id := (rows[0]).Str(0)
@@ -201,7 +201,7 @@ func GetCurrentTrip() Trip {
 	longHigh := -180.0 //the MIN long value
 
 	for _, row := range rows {
-		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Str(2), row.Str(3)})
+		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3)})
 
 		//CENTER AND SCALE THE MAP
 		//long
@@ -222,8 +222,10 @@ func GetCurrentTrip() Trip {
 	averageLat := (longLow + longHigh) / 2
 	averageLong := (latLow + latHigh) / 2
 
-	myTrip.CenterLong = averageLong
 	myTrip.CenterLat = averageLat
+	myTrip.CenterLong = averageLong
+	//myTrip.CenterLong = fmt.Sprintf("%f", averageLong)
+	//myTrip.CenterLat = fmt.Sprintf("%f", averageLat)
 
 	return myTrip
 }
