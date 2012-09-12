@@ -207,14 +207,16 @@ func GetCurrentTrip() Trip {
 		//long
 		if longLow > row.Float(2) {
 			longLow = row.Float(2)
-		} else if longHigh < row.Float(2) {
+		}
+		if longHigh < row.Float(2) {
 			longHigh = row.Float(2)
 		}
 
 		//lat
 		if latLow > row.Float(3) {
 			latLow = row.Float(3)
-		} else if latHigh < row.Float(3) {
+		}
+		if latHigh < row.Float(3) {
 			latHigh = row.Float(3)
 		}
 	}
