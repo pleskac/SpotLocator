@@ -200,6 +200,35 @@ func GetCurrentTrip() Trip {
 	longLow := 180.0   //the MAX long value
 	longHigh := -180.0 //the MIN long value
 
+	totalDistance := longHigh - longLow
+
+	if (latHigh - latLow) > (longHigh - longLow){
+		totalDistance = latHigh - latLow
+	}
+	if totalDistance < 0.05{
+			myTrip.Zoom = 15
+		}else if totalDistance < 0.125{
+			myTrip.Zoom = 12
+		}else if totalDistance < 0.25{
+			myTrip.Zoom = 11
+		}else if totalDistance < 0.5{
+			myTrip.Zoom = 10
+		}else if totalDistance < 1.1{
+			myTrip.Zoom = 9
+		}else if totalDistance < 2.2{
+			myTrip.Zoom = 8
+		}else if totalDistance < 4.5{
+			myTrip.Zoom = 7
+		}else if totalDistance < 9{
+			myTrip.Zoom = 6
+		}else if totalDistance < 17{
+			myTrip.Zoom = 5
+		}else if totalDistance < 34{
+			myTrip.Zoom = 4
+		}else
+			myTrip.Zoom = 3
+		}
+
 	for _, row := range rows {
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3)})
 
