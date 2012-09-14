@@ -11,6 +11,8 @@ type Location struct {
 	//other info
 	Longitude float64
 	Latitude  float64
+	Title     string
+	Details   string
 }
 
 type Trip struct {
@@ -200,6 +202,27 @@ func GetCurrentTrip() Trip {
 	longLow := 180.0   //the MAX long value
 	longHigh := -180.0 //the MIN long value
 
+	for _, row := range rows {
+		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), row.Str(6)})
+
+		//CENTER AND SCALE THE MAP
+		//long
+		if longLow > row.Float(2) {
+			longLow = row.Float(2)
+		}
+		if longHigh < row.Float(2) {
+			longHigh = row.Float(2)
+		}
+
+		//lat
+		if latLow > row.Float(3) {
+			latLow = row.Float(3)
+		}
+		if latHigh < row.Float(3) {
+			latHigh = row.Float(3)
+		}
+	}
+
 	totalDistance := longHigh - longLow
 
 	if (latHigh - latLow) > (longHigh - longLow) {
@@ -227,27 +250,6 @@ func GetCurrentTrip() Trip {
 		myTrip.Zoom = 4
 	} else {
 		myTrip.Zoom = 3
-	}
-
-	for _, row := range rows {
-		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3)})
-
-		//CENTER AND SCALE THE MAP
-		//long
-		if longLow > row.Float(2) {
-			longLow = row.Float(2)
-		}
-		if longHigh < row.Float(2) {
-			longHigh = row.Float(2)
-		}
-
-		//lat
-		if latLow > row.Float(3) {
-			latLow = row.Float(3)
-		}
-		if latHigh < row.Float(3) {
-			latHigh = row.Float(3)
-		}
 	}
 
 	averageLong := (longLow + longHigh) / 2
