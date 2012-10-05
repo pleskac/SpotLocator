@@ -26,15 +26,16 @@ type Message struct {
 	Latitude       float32
 	Longitude      float32
 	MessageContent string
+	Time           int
 }
 
-func GetGPSLocationFromId(id string) (float32, float32, string, error) {
+func GetGPSLocationFromId(id string) (float32, float32, string, int, error) {
 	url := "http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location" + id
 	fmt.Println(url)
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Error pulling GPS location:", err)
-		return 0.0, 0.0, "", err
+		return 0.0, 0.0, "", 0, err
 	}
 
 	//Closes the http response at the end of the function
@@ -45,12 +46,13 @@ func GetGPSLocationFromId(id string) (float32, float32, string, error) {
 
 	if err = dec.Decode(res); err != nil {
 		fmt.Println("Error decoding:", err)
-		return 0.0, 0.0, "", err
+		return 0.0, 0.0, "", 0, err
 	}
 	//fmt.Println("RESPOSE: ", res)
 	//fmt.Println("Latitude:", res.Response.MessagesResponse.Messages.Message.Latitude)
 	long := res.Response.MessagesResponse.Messages.Message.Longitude
 	lat := res.Response.MessagesResponse.Messages.Message.Latitude
 	msg := res.Response.MessagesResponse.Messages.Message.MessageContent
-	return long, lat, msg, nil
+	tm := res.Response.MessagesResponse.Messages.Message.Time
+	return long, lat, msg, tm, nil
 }

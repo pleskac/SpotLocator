@@ -202,8 +202,12 @@ func GetCurrentTrip() Trip {
 	longLow := 180.0   //the MAX long value
 	longHigh := -180.0 //the MIN long value
 
+	//Add every GPS location
 	for _, row := range rows {
-		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), row.Str(6)})
+		//Timestamp: Details
+		details := row.Str(4) + ": " + row.Str(6)
+
+		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details})
 
 		//CENTER AND SCALE THE MAP
 		//long
