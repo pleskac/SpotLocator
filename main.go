@@ -69,18 +69,18 @@ func main() {
 					continue
 				}
 
-				long, lat, msg, err := GetGPSLocationFromId(param)
+				long, lat, msg, tm, err := GetGPSLocationFromId(param)
 
 				if err != nil {
 					continue
 				}
 
 				//NEED TO IMPLEMENT THIS
-				AddGPS(long, lat, msg)
+				AddGPS(long, lat, msg, tm)
 			}
 		}
 
-		//Wait 10 seconds
+		//Wait 100 seconds
 		//TODO: increase this time
 		time.Sleep(1000000 * time.Millisecond)
 	}
