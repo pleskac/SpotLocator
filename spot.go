@@ -26,10 +26,10 @@ type Message struct {
 	Latitude       float32
 	Longitude      float32
 	MessageContent string
-	Time           int
+	Time           int64
 }
 
-func GetGPSLocationFromId(id string) (float32, float32, string, int, error) {
+func GetGPSLocationFromId(id string) (float32, float32, string, int64, error) {
 	url := "http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location" + id
 	fmt.Println(url)
 	resp, err := http.Get(url)

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ziutek/mymysql/mysql"
 	_ "github.com/ziutek/mymysql/native"
+	"time"
 	// _ "github.com/ziutek/mymysql/thrsafe" // Thread safe engine
 )
 
@@ -75,8 +76,8 @@ func SaveLatestTweet(tweetId string) {
 }
 
 //Need to add more parameters to insert into DB
-func AddGPS(longitude float32, latitude float32, message string) {
-	fmt.Println("NEW LOCATION:", longitude, latitude, message)
+func AddGPS(longitude float32, latitude float32, message string, time int64) {
+	//fmt.Println("NEW LOCATION:", longitude, latitude, message)
 
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 	err := db.Connect()
@@ -103,14 +104,14 @@ func AddGPS(longitude float32, latitude float32, message string) {
 
 	//Add the GPS row
 	if tripKey == -1 {
-		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details) VALUES (?, ?, ?)")
-		_, err = stmt.Run(longitude, latitude, message)
+		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, timestamp) VALUES (?, ?, ?, ?)")
+		_, err = stmt.Run(longitude, latitude, message, time)
 		if err != nil {
 			panic(err)
 		}
 	} else {
-		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, trip) VALUES (?, ?, ?, ?)")
-		_, err = stmt.Run(longitude, latitude, message, tripKey)
+		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, trip, timestamp) VALUES (?, ?, ?, ?, ?)")
+		_, err = stmt.Run(longitude, latitude, message, tripKey, time)
 		if err != nil {
 			panic(err)
 		}
@@ -205,7 +206,12 @@ func GetCurrentTrip() Trip {
 	//Add every GPS location
 	for _, row := range rows {
 		//Timestamp: Details
-		details := row.Str(4) + ": " + row.Str(6)
+		mytime := time.Unix(row.Int64(4), 0)
+		year, month, day := mytime.Date()
+		hour, min, sec := mytime.Clock()
+		//fmt.Println(mytime.Weekday(), month, day, year, hour, min, sec
+		timestamp := fmt.Sprint(mytime.Weekday(), month, day, year, hour, min, sec)
+		details := timestamp + " – " + row.Str(6)
 
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details})
 
