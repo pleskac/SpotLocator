@@ -54,5 +54,7 @@ func GetGPSLocationFromId(id string) (float32, float32, string, int64, error) {
 	lat := res.Response.MessagesResponse.Messages.Message.Latitude
 	msg := res.Response.MessagesResponse.Messages.Message.MessageContent
 	tm := res.Response.MessagesResponse.Messages.Message.Time
+
+	fmt.Println("Timestamp:", tm)
 	return long, lat, msg, tm, nil
 }
