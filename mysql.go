@@ -209,9 +209,10 @@ func GetCurrentTrip() Trip {
 		mytime := time.Unix(row.Int64(4), 0)
 		year, month, day := mytime.Date()
 		hour, min, sec := mytime.Clock()
+
 		//fmt.Println(mytime.Weekday(), month, day, year, hour, min, sec
-		timestamp := fmt.Sprint(mytime.Weekday(), month, day, year, hour, min, sec)
-		details := timestamp + " – " + row.Str(6)
+		timestamp := fmt.Sprint(mytime.Weekday().String()+"%d %d\n%d:%d:%d", month, day, year, hour, min, sec)
+		details := timestamp //+ " – " + row.Str(6)
 
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details})
 
