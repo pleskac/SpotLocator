@@ -211,7 +211,7 @@ func GetCurrentTrip() Trip {
 		hour, min, sec := mytime.Clock()
 
 		//fmt.Println(mytime.Weekday(), month, day, year, hour, min, sec
-		timestamp := fmt.Sprintf("%s %s %d, %d\n\r%d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
+		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
 		details := timestamp //+ " – " + row.Str(6)
 
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details})
