@@ -20,13 +20,14 @@ func main() {
 
 		//Get all new tweets
 		list, err := GetNewTweets(latestId)
+		fmt.Println(list)
 
 		if list != nil && len(*list) > 0 {
 			latestId = (*list)[0].Id_str
 			SaveLatestTweet(latestId) //This could be in a new thread... only done for restarts
 
 		}
-		//fmt.Println("Latest Tweet:", latestId)
+		fmt.Println("Latest Tweet:", latestId)
 
 		if err != nil {
 			continue
