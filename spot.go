@@ -96,7 +96,7 @@ func GetNewLocations(feedId string, id int) ([]Message, error) {
 
 	list := make([]Message, 0)
 
-	//FILTER OUT ALREADY FOUND ONES
+	//FILTER OUT ALREADY FOUND ONESa
 	for _, mes := range json.Resp.FeedMsgResp.Messages.Message {
 		fmt.Println(mes.Id)
 

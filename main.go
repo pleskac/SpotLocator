@@ -14,12 +14,24 @@ func main() {
 	go endpoint()
 
 	//update latestId
+	latestId = GetLatestId()
 
 	for {
-		_, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestId)
+		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestId)
 
 		if err != nil {
 			fmt.Println(err)
+		}
+
+		//save the latest tweet
+
+		for _, location := range newLocations {
+			//AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.UnixTime)
+
+			if location.Id > latestId {
+				latestId = location.Id
+				SaveLatestId(latestId)
+			}
 		}
 
 		//Wait 100 seconds or so
