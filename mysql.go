@@ -28,6 +28,7 @@ func Connect() mysql.Conn {
 
 	err := db.Connect()
 	if err != nil {
+		fmt.Println("ERROR CONNECTING:", err)
 		panic(err)
 	}
 
