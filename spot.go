@@ -7,6 +7,9 @@ import (
 	"net/http"
 )
 
+//In the JSON, Message is an array of objects. 
+//In XML, Messages is an array of objects Message.
+
 type SpotApiResponse struct {
 	Resp Response `json:"response"`
 }
@@ -20,7 +23,7 @@ type FeedMessageResponse struct {
 	Feed          Feed     `json:"feed"`
 	TotalCount    int      `json:"totalCount"`
 	ActivityCount int      `json:"activityCount"`
-	Messages      Messages `json:"messages"` // this ought to be an array but it's not from Spot? this might break...
+	Messages      Messages `json:"messages"`
 }
 
 type Feed struct {
@@ -55,8 +58,6 @@ type Message struct {
 	MessageContent   string  `json:"messageContent"`
 }
 
-type NewLocations []Message
-
 func getJsonObject(feedId string) (*SpotApiResponse, error) {
 	url := "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/" + feedId + "/message.json"
 
@@ -86,49 +87,25 @@ func getJsonObject(feedId string) (*SpotApiResponse, error) {
 	return spotResp, nil
 }
 
-func GetNewLocations(feedId string, id int) (*NewLocations, error) {
+func GetNewLocations(feedId string, id int) ([]Message, error) {
 	json, err := getJsonObject(feedId)
 
 	if err != nil {
 		return nil, err
 	}
-	//FILTER
 
+	list := make([]Message, 0)
+
+	//FILTER OUT ALREADY FOUND ONES
 	for _, mes := range json.Resp.FeedMsgResp.Messages.Message {
 		fmt.Println(mes.Id)
+
+		if mes.Id > id {
+			//add it
+			list = append(list, mes)
+			fmt.Println("LIST:", list)
+		}
 	}
 
-	return nil, nil
+	return list, nil
 }
-
-/*
-func GetGPSLocationFromId(id string) (float32, float32, string, int64, error) {
-	url := "http://share.findmespot.com/spot-adventures/rest-api/1.0/public/location" + id
-	fmt.Println(url)
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Println("Error pulling GPS location:", err)
-		return 0.0, 0.0, "", 0, err
-	}
-
-	//Closes the http response at the end of the function
-	defer resp.Body.Close()
-
-	dec := json.NewDecoder(resp.Body)
-	res := new(TopStructure)
-
-	if err = dec.Decode(res); err != nil {
-		fmt.Println("Error decoding:", err)
-		return 0.0, 0.0, "", 0, err
-	}
-	//fmt.Println("RESPOSE: ", res)
-	//fmt.Println("Latitude:", res.Response.MessagesResponse.Messages.Message.Latitude)
-	long := res.Response.MessagesResponse.Messages.Message.Longitude
-	lat := res.Response.MessagesResponse.Messages.Message.Latitude
-	msg := res.Response.MessagesResponse.Messages.Message.MessageContent
-	tm := res.Response.MessagesResponse.Messages.Message.Time
-
-	fmt.Println("Timestamp:", tm)
-	return long, lat, msg, tm, nil
-}
-*/

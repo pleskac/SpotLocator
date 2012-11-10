@@ -22,8 +22,7 @@ func main() {
 			fmt.Println(err)
 		}
 
-		//Wait 100 seconds
-		//TODO: increase this time
+		//Wait 100 seconds or so
 		time.Sleep(1000000 * time.Millisecond)
 	}
 }
