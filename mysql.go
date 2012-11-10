@@ -24,7 +24,7 @@ type Trip struct {
 
 var db mysql.Conn
 
-func init() {
+func MakeConnection() {
 	//set up database connection
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 
@@ -60,13 +60,14 @@ func SaveLatestId(id int) {
 	}
 }
 
-func AddGPS(longitude float32, latitude float32, message string, time int64) {
+func AddGPS(longitude float64, latitude float64, message string, time int64) {
 
 	//Get the current trip, if it exists
 	rows, _, err := db.Query("select id from trips where current = 1")
 	if err != nil {
 		panic(err)
 	}
+
 	tripKey := -1
 	if len(rows) > 1 {
 		fmt.Println("More than one row!!")

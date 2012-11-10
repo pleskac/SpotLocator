@@ -13,6 +13,8 @@ var latestId int
 func main() {
 	go endpoint()
 
+	MakeConnection()
+
 	//update latestId
 	latestId = GetLatestId()
 
@@ -26,7 +28,8 @@ func main() {
 		//save the latest tweet
 
 		for _, location := range newLocations {
-			//AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.UnixTime)
+			//TODO: uncomment
+			AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.UnixTime)
 
 			if location.Id > latestId {
 				latestId = location.Id

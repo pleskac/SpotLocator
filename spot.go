@@ -45,7 +45,7 @@ type Message struct {
 	Id               int     `json:"id"`
 	MessengerId      string  `json:"messengerId"`
 	MessengerName    string  `json:"messengerName"`
-	UnixTime         int     `json:"unixTime"`
+	UnixTime         int64   `json:"unixTime"`
 	MessageType      string  `json:"messageType"`
 	Latitude         float64 `json:"latitude"`
 	Longitude        float64 `json:"longitude"`
