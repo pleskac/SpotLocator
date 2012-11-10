@@ -98,11 +98,6 @@ func GetNewLocations(feedId string, id int) (*NewLocations, error) {
 		fmt.Println(mes.Id)
 	}
 
-	/*for mes := range jsonStructure.Response.FeedMessageResponse.Messages.Message {
-		fmt.Println(mes)
-	}
-	*/
-	//jsonStructure.Response.MessagesResponse.Messages
 	return nil, nil
 }
 
