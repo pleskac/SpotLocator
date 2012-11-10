@@ -22,9 +22,7 @@ type Trip struct {
 	Coordinates []Location
 }
 
-var db mysql.Conn
-
-func MakeConnection() {
+func Connect() mysql.Conn {
 	//set up database connection
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 
@@ -32,9 +30,14 @@ func MakeConnection() {
 	if err != nil {
 		panic(err)
 	}
+
+	return db
 }
 
 func GetLatestId() int {
+	db := Connect()
+	defer db.Close()
+
 	rows, _, err := db.Query("SELECT id FROM latestTweet")
 	if err != nil {
 		panic(err)
@@ -44,6 +47,8 @@ func GetLatestId() int {
 }
 
 func SaveLatestId(id int) {
+	db := Connect()
+	defer db.Close()
 
 	//delete all rows
 	stmt, err := db.Prepare("DELETE FROM latestTweet")
@@ -61,6 +66,8 @@ func SaveLatestId(id int) {
 }
 
 func AddGPS(longitude float64, latitude float64, message string, time int64) {
+	db := Connect()
+	defer db.Close()
 
 	//Get the current trip, if it exists
 	rows, _, err := db.Query("select id from trips where current = 1")
@@ -98,6 +105,9 @@ func AddGPS(longitude float64, latitude float64, message string, time int64) {
 }
 
 func CreateTrip(name string) {
+	db := Connect()
+	defer db.Close()
+
 	//End all trips
 	EndTrips()
 
@@ -114,6 +124,9 @@ func CreateTrip(name string) {
 }
 
 func EndTrips() {
+	db := Connect()
+	defer db.Close()
+
 	fmt.Println("Ending all trips")
 
 	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")
@@ -132,6 +145,8 @@ func EndTrips() {
 }
 
 func GetCurrentTrip() Trip {
+	db := Connect()
+	defer db.Close()
 
 	//Get the current trip, if it exists
 	rows, _, err := db.Query("select * from trips where current = 1")

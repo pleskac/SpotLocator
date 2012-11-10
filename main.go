@@ -13,8 +13,6 @@ var latestId int
 func main() {
 	go endpoint()
 
-	MakeConnection()
-
 	//update latestId
 	latestId = GetLatestId()
 
