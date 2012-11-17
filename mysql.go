@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ziutek/mymysql/mysql"
+	_ "github.com/ziutek/mymysql/native"
 	"time"
 )
 
@@ -25,7 +26,6 @@ type Trip struct {
 func Connect() mysql.Conn {
 	//set up database connection
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
-
 	err := db.Connect()
 	if err != nil {
 		fmt.Println("ERROR CONNECTING:", err)
