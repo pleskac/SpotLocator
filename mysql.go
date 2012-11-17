@@ -44,6 +44,10 @@ func GetLatestId() int {
 		panic(err)
 	}
 
+	if len(rows) != 1 {
+		return -1
+	}
+
 	return rows[0].Int(0)
 }
 
