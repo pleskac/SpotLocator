@@ -121,7 +121,7 @@ func GetNewLocations(feedId string, id int) ([]Message, error) {
 	list := make([]Message, 0)
 
 	//FILTER OUT ALREADY FOUND ONESa
-	for _, mes := range list {
+	for _, mes := range allMsgs {
 		fmt.Println(mes.Id)
 
 		if mes.Id > id {

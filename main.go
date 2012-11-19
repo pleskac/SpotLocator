@@ -28,7 +28,7 @@ func main() {
 		for _, location := range newLocations {
 			//TODO: uncomment
 			fmt.Println("New location!")
-			AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.UnixTime)
+			AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
 
 			if location.Id > latestId {
 				latestId = location.Id

@@ -77,7 +77,7 @@ func SaveLatestId(id int) {
 	}
 }
 
-func AddGPS(longitude float64, latitude float64, message string, time int64) {
+func AddGPS(longitude, latitude float64, message, msgType string, time int64) {
 	db := Connect()
 	defer db.Close()
 
@@ -101,14 +101,14 @@ func AddGPS(longitude float64, latitude float64, message string, time int64) {
 
 	//Add the GPS row
 	if tripKey == -1 {
-		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, timestamp) VALUES (?, ?, ?, ?)")
-		_, err = stmt.Run(longitude, latitude, message, time)
+		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, timestamp, type) VALUES (?, ?, ?, ?, ?)")
+		_, err = stmt.Run(longitude, latitude, message, time, msgType)
 		if err != nil {
 			panic(err)
 		}
 	} else {
-		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, trip, timestamp) VALUES (?, ?, ?, ?, ?)")
-		_, err = stmt.Run(longitude, latitude, message, tripKey, time)
+		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, trip, timestamp, type) VALUES (?, ?, ?, ?, ?, ?)")
+		_, err = stmt.Run(longitude, latitude, message, tripKey, time, msgType)
 		if err != nil {
 			panic(err)
 		}
