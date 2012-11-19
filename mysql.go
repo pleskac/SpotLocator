@@ -202,7 +202,7 @@ func GetCurrentTrip() Trip {
 
 		//fmt.Println(mytime.Weekday(), month, day, year, hour, min, sec
 		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
-		details := "<p><b>" + checkinType + "</b> \\n </ br>" + timestamp + "</ br>" + row.Str(6) + "</ p>"
+		details := "<p><b>" + checkinType + "</b> <br />" + timestamp + "<br />" + row.Str(6) + "</ p>"
 
 		color := "red"
 
