@@ -34,7 +34,7 @@ Serves my custom API at pleskac.org/trip.json
 
 loadMap.json
 ------------
-Consumes my custom API, creating a Google Map which is easily put into any <\div> named "map_canvas". The body must call "initialize()" upon loading.
+Consumes my custom API, creating a Google Map which is easily put into any \<div> named "map_canvas". The body must call "initialize()" upon loading.
 
 
 TODO
