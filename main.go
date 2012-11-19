@@ -36,7 +36,7 @@ func main() {
 			}
 		}
 
-		//Wait 100 seconds or so
-		time.Sleep(1000000 * time.Millisecond)
+		//Wait 30 seconds
+		time.Sleep(30000 * time.Millisecond)
 	}
 }
