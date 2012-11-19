@@ -179,7 +179,7 @@ func GetCurrentTrip() Trip {
 
 	//Get the GPS coordinates of that trip
 	id := (rows[0]).Str(0)
-	fmt.Println("select * from gps where trip =", id)
+
 	rows, _, err = db.Query("select * from gps where trip = " + id)
 	if err != nil {
 		panic(err)
@@ -255,8 +255,6 @@ func GetCurrentTrip() Trip {
 
 	myTrip.CenterLat = averageLat
 	myTrip.CenterLong = averageLong
-	//myTrip.CenterLong = fmt.Sprintf("%f", averageLong)
-	//myTrip.CenterLat = fmt.Sprintf("%f", averageLat)
 
 	return myTrip
 }

@@ -61,8 +61,6 @@ type Message struct {
 func getMessages(feedId string) ([]Message, error) {
 	url := "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/" + feedId + "/message.json"
 
-	fmt.Println("URL:", url)
-
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
@@ -81,8 +79,6 @@ func getMessages(feedId string) ([]Message, error) {
 		fmt.Println(err)
 		return nil, err
 	}
-
-	fmt.Println(spotResp)
 
 	jsonBlob := spotResp.Resp.FeedMsgResp.Messages.Message
 
@@ -122,12 +118,12 @@ func GetNewLocations(feedId string, id int) ([]Message, error) {
 
 	//FILTER OUT ALREADY FOUND ONESa
 	for _, mes := range allMsgs {
-		fmt.Println(mes.Id)
+		fmt.Println("LOOKING AT", mes.Id)
 
 		if mes.Id > id {
 			//add it
 			list = append(list, mes)
-			fmt.Println("LIST:", list)
+			fmt.Println("NEW! ADDED!", list)
 		}
 	}
 
