@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-//In the JSON, Message is an array of objects. 
-//In XML, Messages is an array of objects Message.
+//In the JSON, Message is an array of object(s). 
+//In XML, Messages is an array of object(s) Message.
 type SpotApiResponse struct {
 	Resp Response `json:"response"`
 }
@@ -36,8 +36,11 @@ type Feed struct {
 }
 
 type Messages struct {
+	//This is generic to allow for both a list of 
+	//messages and a single message. The SPOT API's
+	//naming convention for JSON is unusual and 
+	//doesn't make sense. The XML makes more sense.
 	Message json.RawMessage
-	//Message []Message `json:"message"`
 }
 
 type Message struct {
@@ -61,6 +64,8 @@ type Message struct {
 func getMessages(feedId string) ([]Message, error) {
 	url := "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/" + feedId + "/message.json"
 
+	//https - skip the verification for ease of use
+	//shouldn't really be any reason this needs to be secure
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
@@ -82,10 +87,10 @@ func getMessages(feedId string) ([]Message, error) {
 
 	jsonBlob := spotResp.Resp.FeedMsgResp.Messages.Message
 
-	//list := make([]Message, 0)
 	var list []Message
 
 	if spotResp.Resp.FeedMsgResp.Count == 1 {
+		//Single message in JSON
 		var msg Message
 		err := json.Unmarshal(jsonBlob, &msg)
 		if err != nil {
@@ -94,8 +99,8 @@ func getMessages(feedId string) ([]Message, error) {
 		}
 		list := make([]Message, 1)
 		list[0] = msg
-		//add singleMessage to msg
 	} else if spotResp.Resp.FeedMsgResp.Count > 1 {
+		//Multiple messages in JSON
 		err := json.Unmarshal(jsonBlob, &list)
 		if err != nil {
 			fmt.Println(err)
@@ -116,13 +121,13 @@ func GetNewLocations(feedId string, id int) ([]Message, error) {
 
 	list := make([]Message, 0)
 
-	//FILTER OUT ALREADY FOUND ONESa
+	//Only return messages that are "new"
+	//i.e. messages with Id greater than the previous "new" message
 	for _, mes := range allMsgs {
 
 		if mes.Id > id {
-			//add it
+			//New message!
 			list = append(list, mes)
-			fmt.Println("New location. Id =", mes.Id)
 		}
 	}
 

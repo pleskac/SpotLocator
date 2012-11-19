@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/ziutek/mymysql/mysql"
-	_ "github.com/ziutek/mymysql/native"
 	"time"
 )
 
+//Every GPS location for a trip
 type Location struct {
-	//other info
 	Longitude float64
 	Latitude  float64
 	Title     string
@@ -16,6 +15,7 @@ type Location struct {
 	Color     string
 }
 
+//A single trip for a single map
 type Trip struct {
 	TripName    string
 	Zoom        int
@@ -25,7 +25,7 @@ type Trip struct {
 }
 
 func Connect() mysql.Conn {
-	//set up database connection
+	//Set up database connection
 	db := mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
 	err := db.Connect()
 	if err != nil {
@@ -36,6 +36,7 @@ func Connect() mysql.Conn {
 	return db
 }
 
+//TODO: "latestTweet" is an outdated name. No longer using Twitter
 func GetLatestId() int {
 	db := Connect()
 	defer db.Close()
@@ -48,7 +49,7 @@ func GetLatestId() int {
 	if len(rows) < 1 {
 		return -1
 	} else if len(rows) > 1 {
-		//delete all rows
+		//delete all rows, the table is messed up
 		stmt, err := db.Prepare("DELETE FROM latestTweet")
 		_, err = stmt.Run()
 		if err != nil {
@@ -59,18 +60,19 @@ func GetLatestId() int {
 	return rows[0].Int(0)
 }
 
+//TODO: "latestTweet" is an outdated name. No longer using Twitter
 func SaveLatestId(id int) {
 	db := Connect()
 	defer db.Close()
 
-	//delete all rows
+	//Delete all rows
 	stmt, err := db.Prepare("DELETE FROM latestTweet")
 	_, err = stmt.Run()
 	if err != nil {
 		panic(err)
 	}
 
-	//insert new row
+	//Insert new row
 	stmt, err = db.Prepare("INSERT INTO latestTweet (id) VALUES (?)")
 	_, err = stmt.Run(id)
 	if err != nil {
@@ -88,19 +90,17 @@ func AddGPS(longitude, latitude float64, message, msgType string, time int64) {
 		panic(err)
 	}
 
+	//Get the foreign key to the current trip
 	tripKey := -1
 	if len(rows) > 1 {
 		fmt.Println("More than one row!!")
 	} else if len(rows) == 0 {
 		fmt.Println("0 rows!")
 	} else {
-		//get dat foreign key to dat trip
 		tripKey = (rows[0]).Int(0)
 	}
 
-	fmt.Println("Trip Key:", tripKey)
-
-	//Add the GPS row
+	//Add the GPS row with data
 	if tripKey == -1 {
 		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, timestamp, type) VALUES (?, ?, ?, ?, ?)")
 		_, err = stmt.Run(longitude, latitude, message, time, msgType)
@@ -125,10 +125,9 @@ func CreateTrip(name string) {
 	EndTrips()
 
 	//Create new trip, set it as current trip
-	fmt.Println("starting trip!")
+	fmt.Println("Starting trip", name)
 
-	//insert
-	fmt.Println("Name:", name)
+	//Insert new trip
 	stmt, err := db.Prepare("INSERT INTO trips (name, details, current) VALUES (?, ?, ?)")
 	_, err = stmt.Run(name, "", 1)
 	if err != nil {
@@ -147,7 +146,6 @@ func EndTrips() {
 		panic(err)
 	}
 	for _, row := range rows {
-		fmt.Println("REMOVING A CURRENT TRIP!")
 		tripId := row.Str(0)
 		stmt, err := db.Prepare("UPDATE trips SET current = 0 WHERE id=" + tripId)
 		_, err = stmt.Run()
@@ -157,6 +155,8 @@ func EndTrips() {
 	}
 }
 
+//TODO: this can be split up and organized better
+//Also, could default to the current trip, or allow specific trips to be returned, that would allow multiple maps on the site
 func GetCurrentTrip() Trip {
 	db := Connect()
 	defer db.Close()
@@ -200,20 +200,22 @@ func GetCurrentTrip() Trip {
 
 		checkinType := row.Str(5)
 
-		//fmt.Println(mytime.Weekday(), month, day, year, hour, min, sec
+		//Formatting the infowindow bubble.
 		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
 		details := "<p><b>" + checkinType + "</b> <br />" + timestamp + "<br />" + row.Str(6) + "</ p>"
 
+		//Customizing colors in Go. Could do this in javascript, but I don't like javascript at all
 		color := "red"
-
 		if checkinType == "OK" {
 			color = "blue"
 		}
 
+		//Add new GPS location
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details, color})
 
-		//CENTER AND SCALE THE MAP
-		//long
+		//Info for centering and scaling the map
+		//Again, I could do this in javascript, but I really don't like javascript
+		//longitude
 		if longLow > row.Float(2) {
 			longLow = row.Float(2)
 		}
@@ -221,7 +223,7 @@ func GetCurrentTrip() Trip {
 			longHigh = row.Float(2)
 		}
 
-		//lat
+		//latitude
 		if latLow > row.Float(3) {
 			latLow = row.Float(3)
 		}
@@ -230,8 +232,8 @@ func GetCurrentTrip() Trip {
 		}
 	}
 
+	//Zoom the map based on the longest total distance. It errs on the side of showing more map
 	totalDistance := longHigh - longLow
-
 	if (latHigh - latLow) > (longHigh - longLow) {
 		totalDistance = latHigh - latLow
 	}
@@ -259,6 +261,7 @@ func GetCurrentTrip() Trip {
 		myTrip.Zoom = 3
 	}
 
+	//Center the map 
 	averageLong := (longLow + longHigh) / 2
 	averageLat := (latLow + latHigh) / 2
 

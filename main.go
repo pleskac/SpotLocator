@@ -11,6 +11,7 @@ var param string
 var latestId int
 
 func main() {
+	//API endpoint
 	go endpoint()
 
 	//update latestId
@@ -23,11 +24,7 @@ func main() {
 			fmt.Println("Error getting new locations:", err)
 		}
 
-		//save the latest tweet
-
 		for _, location := range newLocations {
-			//TODO: uncomment
-			fmt.Println("New location!")
 			AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
 
 			if location.Id > latestId {
