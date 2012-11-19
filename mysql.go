@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ziutek/mymysql/mysql"
+	_ "github.com/ziutek/mymysql/native"
 	"time"
 )
 
