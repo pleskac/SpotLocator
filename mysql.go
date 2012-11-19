@@ -207,7 +207,7 @@ func GetCurrentTrip() Trip {
 		color := "red"
 
 		if checkinType == "OK" {
-			color = "DarkOliveGreen"
+			color = "blue"
 		}
 
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details, color})
