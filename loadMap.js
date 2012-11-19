@@ -36,7 +36,7 @@ jQuery.ajax("http://pleskac.org/api/SouthAmerica").done(
        
         var flightPath = new google.maps.Polyline({
           path: flightPlanCoordinates,
-          strokeColor: "#556b2f",
+          strokeColor: "red",
           strokeOpacity: 1.0,
           strokeWeight: 2
         });
