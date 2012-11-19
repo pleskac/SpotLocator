@@ -112,13 +112,13 @@ func getMessages(feedId string) ([]Message, error) {
 }
 
 func GetNewLocations(feedId string, id int) ([]Message, error) {
-	list, err := getMessages(feedId)
+	allMsgs, err := getMessages(feedId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	//list := make([]Message, 0)
+	list := make([]Message, 0)
 
 	//FILTER OUT ALREADY FOUND ONESa
 	for _, mes := range list {
