@@ -44,8 +44,15 @@ func GetLatestId() int {
 		panic(err)
 	}
 
-	if len(rows) != 1 {
+	if len(rows) < 1 {
 		return -1
+	} else if len(rows) > 1 {
+		//delete all rows
+		stmt, err := db.Prepare("DELETE FROM latestTweet")
+		_, err = stmt.Run()
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	return rows[0].Int(0)

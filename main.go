@@ -20,13 +20,14 @@ func main() {
 		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestId)
 
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error getting new locations:", err)
 		}
 
 		//save the latest tweet
 
 		for _, location := range newLocations {
 			//TODO: uncomment
+			fmt.Println("New location!")
 			AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.UnixTime)
 
 			if location.Id > latestId {

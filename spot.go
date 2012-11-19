@@ -9,7 +9,6 @@ import (
 
 //In the JSON, Message is an array of objects. 
 //In XML, Messages is an array of objects Message.
-
 type SpotApiResponse struct {
 	Resp Response `json:"response"`
 }
@@ -37,7 +36,8 @@ type Feed struct {
 }
 
 type Messages struct {
-	Message []Message `json:"message"`
+	Message json.RawMessage
+	//Message []Message `json:"message"`
 }
 
 type Message struct {
@@ -58,7 +58,7 @@ type Message struct {
 	MessageContent   string  `json:"messageContent"`
 }
 
-func getJsonObject(feedId string) (*SpotApiResponse, error) {
+func getMessages(feedId string) ([]Message, error) {
 	url := "https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/" + feedId + "/message.json"
 
 	fmt.Println("URL:", url)
@@ -84,20 +84,44 @@ func getJsonObject(feedId string) (*SpotApiResponse, error) {
 
 	fmt.Println(spotResp)
 
-	return spotResp, nil
+	jsonBlob := spotResp.Resp.FeedMsgResp.Messages.Message
+
+	//list := make([]Message, 0)
+	var list []Message
+
+	if spotResp.Resp.FeedMsgResp.Count == 1 {
+		var msg Message
+		err := json.Unmarshal(jsonBlob, &msg)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+		list := make([]Message, 1)
+		list[0] = msg
+		//add singleMessage to msg
+	} else if spotResp.Resp.FeedMsgResp.Count > 1 {
+		err := json.Unmarshal(jsonBlob, &list)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+	}
+
+	return list, nil
 }
 
 func GetNewLocations(feedId string, id int) ([]Message, error) {
-	json, err := getJsonObject(feedId)
+	list, err := getMessages(feedId)
 
 	if err != nil {
 		return nil, err
 	}
 
-	list := make([]Message, 0)
+	//list := make([]Message, 0)
 
 	//FILTER OUT ALREADY FOUND ONESa
-	for _, mes := range json.Resp.FeedMsgResp.Messages.Message {
+	for _, mes := range list {
 		fmt.Println(mes.Id)
 
 		if mes.Id > id {
