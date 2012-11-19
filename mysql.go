@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/ziutek/mymysql/mysql"
+	//This reference is necessary, otherwise a panic will occur upon calling mysql.New()
 	_ "github.com/ziutek/mymysql/native"
 	"time"
 )
