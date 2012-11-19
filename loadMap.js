@@ -1,7 +1,6 @@
 var infowindow;
 var map;
 function initialize() {
-//call rest service here... get the center
 //http://pleskac.org/api/SouthAmerica
 infowindow = new google.maps.InfoWindow();
 jQuery.ajax("http://pleskac.org/api/SouthAmerica").done(
@@ -32,29 +31,9 @@ jQuery.ajax("http://pleskac.org/api/SouthAmerica").done(
 	jQuery.each(trips.Coordinates, function(){
 		console.log(this);
 		createMarker(this.Latitude, this.Longitude, this.Details, this.Color);
-	/*	var position = new google.maps.LatLng(this.Latitude, this.Longitude);
-        	var marker = new google.maps.Marker({
-			position: position, 
-			map: map,
-			title: this.Title
- 		});
 
-          	//marker.setTitle(this.Title);
-
-		//var infowindow = new google.maps.InfoWindow({
-          	//	content: this.Details
-        	//});
-
-        	google.maps.event.addListener(marker, 'click', function() {
-          		infowindow.setContent(this.Title);
-			//infowindow.open(marker.get('map'), marker);
-			infowindow.open(map, this);
-        	});*/
 	});
        
-	//var bounds = new google.maps.LatLngBounds(southWest, northEast);
-        //map.fitBounds(bounds);
-
         var flightPath = new google.maps.Polyline({
           path: flightPlanCoordinates,
           strokeColor: "#556b2f",
