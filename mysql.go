@@ -13,6 +13,7 @@ type Location struct {
 	Latitude  float64
 	Title     string
 	Details   string
+	Color     string
 }
 
 type Trip struct {
@@ -197,11 +198,19 @@ func GetCurrentTrip() Trip {
 		year, month, day := mytime.Date()
 		hour, min, sec := mytime.Clock()
 
+		checkinType := row.Str(5)
+
 		//fmt.Println(mytime.Weekday(), month, day, year, hour, min, sec
 		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
-		details := timestamp //+ " – " + row.Str(6)
+		details := "<b>" + checkinType + "</b> </ br>" + timestamp + "</ br" + row.Str(6) //+ " – " + row.Str(6)
 
-		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details})
+		color := "red"
+
+		if checkinType == "OK" {
+			color = "blue"
+		}
+
+		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details, color})
 
 		//CENTER AND SCALE THE MAP
 		//long
