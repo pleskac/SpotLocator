@@ -34,7 +34,7 @@ Serves my custom API at pleskac.org/trip.json
 
 loadMap.json
 ------------
-Consumes my custom API, creating a Google Map which is easily put into any \<div> named "map_canvas". The body must call "initialize()" upon loading.
+Consumes my custom API, creating a Google Map which is easily put into any \<div> named "map_canvas". The body must call "initialize()" upon loading. I do this within a blank page at pleskac.org/map.html and then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
 
 
 TODO
