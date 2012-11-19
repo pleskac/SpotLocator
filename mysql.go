@@ -156,6 +156,7 @@ func EndTrips() {
 }
 
 //TODO: this can be split up and organized better
+//Only allow this to access MySQL, move formatting data somewhere else
 //Also, could default to the current trip, or allow specific trips to be returned, that would allow multiple maps on the site
 func GetCurrentTrip() Trip {
 	db := Connect()

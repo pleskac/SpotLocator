@@ -1,4 +1,44 @@
+SpotLocator
+===========
+
+Problem
+-------
+The Spot GPS is a device for "checking in" in the wilderness. It works where cellphones don't. It is used primarily as a safety device, alerting local search and rescue as well as anybody else that you wish to notify. It even has the option to share locations to Twitter, Facebook, or a "shared map" (basically an embedded Google Map that doesn't work in Firefox nor Chrome).
+
+Solution
+-------
+Since the Spot website is horrendous, doesn't support my favorite browsers, and only is able to display the last 7 days of data, I decided to rewrite my own version which I am able to embed in a blog. I ping the public API of my GPS locations, looking for new data. When a new location is found, I save it locally. I also serve up all of this information to my own API, which I consume in javascript, creating a customized Google Map of my locations. I am able to associate GPS locations with individual trips and am able to save more than 7 days(!).
+
+Originally, I scraped the Twitter API. Then Twitter implemented mandatory OAuth, causing much frustration on my end. I decided to scrap Twitter completely and use the Spot API. It is easier, despite some weird naming conventions. I'm also able to access all types of messages, rather than just the "OK" messages that Twitter was privy to.
+
+As a disclaimer, Spot started allowing users to save longer "trips" through a proprietary "Adventures" website (which only works in IE and Safari). It still is less customizable and less accessable than my solution.
+
+Files
+=====
+
+main.go
+-------
+Main function. Calls spot.go to get new locations. Sends them to mysql.go to save them. Keeps track of the latest location, persisted in MySQL.
+
+mysql.go
+--------
+Contacts the database. Saving and retrieving information supported. Formats the outputs to nice objects (maybe too much formatting).
+
+spot.go
+-------
+Deals with the Spot API. Returns a list of messages. Gets around a weird case of having 1 message vs multiple messages in json.
+
+endpoint.go
+-----------
+Serves my custom API at pleskac.org/trip.json
+
+loadMap.json
+------------
+Consumes my custom API, creating a Google Map which is easily put into any <div> named "map_canvas". The body must call "initialize()" upon loading.
+
+
 TODO
 ====
 * Move spot.go to new package to allow for reuse
-* Readd all functionality after twitter was ditched
+* Remove Twitter naming conventions in mysql.go
+* Refactor mysql.go to only contain DB calling, move formatting elsewhere
