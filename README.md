@@ -32,3 +32,4 @@ Consumes my custom API, creating a Google Map which is easily put into any \<div
 * Move spot.go to new package to allow for reuse
 * Remove Twitter naming conventions in mysql.go
 * Refactor mysql.go to only contain DB calling, move formatting elsewhere
+* Support returning any trip, not just the current trip
