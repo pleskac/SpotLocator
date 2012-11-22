@@ -210,7 +210,11 @@ func GetCurrentTrip() Trip {
 		//Customizing colors in Go. Could do this in javascript, but I don't like javascript at all
 		color := "red"
 		if checkinType == "OK" {
-			color = "blue"
+			color = "DarkCyan"
+		} else if checkinType == "TRACK" {
+			color = "DarkOliveGreen"
+		} else if checkinType == "CUSTOM" {
+			color = "Orange"
 		}
 
 		//Add new GPS location
