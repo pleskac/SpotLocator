@@ -20,9 +20,6 @@ type Location struct {
 //A single trip for a single map
 type Trip struct {
 	TripName    string
-	Zoom        int
-	CenterLong  float64
-	CenterLat   float64
 	Coordinates []Location
 }
 
@@ -179,7 +176,7 @@ func GetCurrentTrip() Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	myTrip := Trip{name, 10, -96.7, 40.8, nil}
+	myTrip := Trip{name, nil}
 
 	//Get the GPS coordinates of that trip
 	id := (rows[0]).Str(0)
@@ -188,11 +185,6 @@ func GetCurrentTrip() Trip {
 	if err != nil {
 		panic(err)
 	}
-
-	latLow := 90.0     //the MAX lat value
-	latHigh := -90.0   //the MIN lat value
-	longLow := 180.0   //the MAX long value
-	longHigh := -180.0 //the MIN long value
 
 	//Add every GPS location
 	for _, row := range rows {
@@ -208,7 +200,7 @@ func GetCurrentTrip() Trip {
 		details := "<p><b>" + checkinType + "</b> <br />" + timestamp + "<br />" + row.Str(6) + "</ p>"
 
 		//Customizing colors in Go. Could do this in javascript, but I don't like javascript at all
-		color := "red"
+		color := "Red"
 		if checkinType == "OK" {
 			color = "RoyalBlue"
 		} else if checkinType == "TRACK" {
@@ -219,61 +211,7 @@ func GetCurrentTrip() Trip {
 
 		//Add new GPS location
 		myTrip.Coordinates = append(myTrip.Coordinates, Location{row.Float(2), row.Float(3), row.Str(5), details, color})
-
-		//Info for centering and scaling the map
-		//Again, I could do this in javascript, but I really don't like javascript
-		//longitude
-		if longLow > row.Float(2) {
-			longLow = row.Float(2)
-		}
-		if longHigh < row.Float(2) {
-			longHigh = row.Float(2)
-		}
-
-		//latitude
-		if latLow > row.Float(3) {
-			latLow = row.Float(3)
-		}
-		if latHigh < row.Float(3) {
-			latHigh = row.Float(3)
-		}
 	}
-
-	//Zoom the map based on the longest total distance. It errs on the side of showing more map
-	totalDistance := longHigh - longLow
-	if (latHigh - latLow) > (longHigh - longLow) {
-		totalDistance = latHigh - latLow
-	}
-	if totalDistance < 0.05 {
-		myTrip.Zoom = 15
-	} else if totalDistance < 0.125 {
-		myTrip.Zoom = 12
-	} else if totalDistance < 0.25 {
-		myTrip.Zoom = 11
-	} else if totalDistance < 0.5 {
-		myTrip.Zoom = 10
-	} else if totalDistance < 1.1 {
-		myTrip.Zoom = 9
-	} else if totalDistance < 2.2 {
-		myTrip.Zoom = 8
-	} else if totalDistance < 4.5 {
-		myTrip.Zoom = 7
-	} else if totalDistance < 9 {
-		myTrip.Zoom = 6
-	} else if totalDistance < 17 {
-		myTrip.Zoom = 5
-	} else if totalDistance < 34 {
-		myTrip.Zoom = 4
-	} else {
-		myTrip.Zoom = 3
-	}
-
-	//Center the map 
-	averageLong := (longLow + longHigh) / 2
-	averageLat := (latLow + latHigh) / 2
-
-	myTrip.CenterLat = averageLat
-	myTrip.CenterLong = averageLong
 
 	return myTrip
 }
