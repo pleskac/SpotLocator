@@ -28,9 +28,10 @@ Returns a single trip object of the same name. It does string matching and retur
 Not sure what this will be used for. The list of trip objects could be used for searching and selecting. The id can be used to get for a specific trip. This is basically for fun and/or testing.
 
 # Configuration #
-Account config
-Server setup
-HTML usage
+Still need to code, then documentation will come
+* Account config
+* Server setup
+* HTML usage
 
 # Files #
 
@@ -53,6 +54,5 @@ Consumes my custom API, creating a Google Map which is easily put into any ```<d
 * Move spot.go to new package to allow for reuse
 * Remove Twitter naming conventions in mysql.go
 * Refactor mysql.go to only contain DB calling, move formatting elsewhere
-* Support returning any trip, not just the current trip
 * Add Foursquare integration
 * Make configureable with config files
