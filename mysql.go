@@ -183,7 +183,7 @@ func FindTrip(name string) int {
 	db := Connect()
 	defer db.Close()
 
-	query := "select * from trips where name like %" + name + "%"
+	query := "select * from trips where name like '%" + name + "%'"
 
 	rows, _, err := db.Query(query)
 	if err != nil {
