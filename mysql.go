@@ -257,3 +257,23 @@ func GetTrip(id int) Trip {
 
 	return myTrip
 }
+
+func GetTripList() []int {
+	var list []int
+	query := "select * from trips"
+
+	db := Connect()
+	defer db.Close()
+
+	rows, _, err := db.Query(query)
+	if err != nil {
+		panic(err)
+	}
+
+	for _, row := range rows {
+		//Add every id of every trip to the list
+		list = append(list, row.Int(0))
+	}
+
+	return list
+}
