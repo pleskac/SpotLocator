@@ -52,6 +52,13 @@ func TripNameHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars[tripName]
 
-	fmt.Println("Name:", name)
+	id := FindTrip(name)
+	if id < 0 {
+		return
+	}
 
+	output := GetTrip(id)
+
+	enc := json.NewEncoder(w)
+	enc.Encode(output)
 }
