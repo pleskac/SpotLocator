@@ -12,6 +12,10 @@ import (
 const tripId = "tripId"
 const tripName = "tripName"
 
+//JSON endpoints:
+//	/api/trip/id/{ID}		looks up by trip id
+//	/api/trip/name/{NAME}	searches tips by name and returns the first trip matching that string
+//	/api/trip/currentTrip	returns the current trip
 func endpoint() {
 	router := mux.NewRouter()
 	r := router.Host("{domain:pleskac.org|api.pleskac.org|localhost}").Subrouter()
@@ -24,6 +28,9 @@ func endpoint() {
 }
 
 func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "pleskac.org")
+
 	currentTripId := GetCurrentTripId()
 	output := GetTrip(currentTripId)
 
