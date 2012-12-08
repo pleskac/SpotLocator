@@ -200,6 +200,7 @@ func FindTrip(name string) int {
 
 func GetTrip(id int) Trip {
 	if id < 0 {
+		//ids cannot be negative
 		return Trip{}
 	}
 
@@ -212,6 +213,11 @@ func GetTrip(id int) Trip {
 	rows, _, err := db.Query(tripQuery)
 	if err != nil {
 		panic(err)
+	}
+
+	if len(rows) < 1 {
+		//Trip with that id does not exist
+		return Trip{}
 	}
 
 	name := (rows[0]).Str(1)

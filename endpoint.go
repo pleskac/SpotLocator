@@ -16,6 +16,7 @@ const tripName = "tripName"
 //	/api/trip/id/{ID}		looks up by trip id
 //	/api/trip/name/{NAME}	searches tips by name and returns the first trip matching that string
 //	/api/trip/currentTrip	returns the current trip
+//	/api/trip/list			returns a list of all trips
 func endpoint() {
 	router := mux.NewRouter()
 	r := router.Host("{domain:pleskac.org|api.pleskac.org|localhost}").Subrouter()
@@ -23,8 +24,16 @@ func endpoint() {
 	r.HandleFunc("/api/trip/id/{"+tripId+":[0-9]+}", TripIdHandler)
 	r.HandleFunc("/api/trip/name/{"+tripName+"}", TripNameHandler)
 	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
+	r.HandleFunc("/api/trip/list", TripListHandler)
 
 	http.ListenAndServe(":8080", r)
+}
+
+func TripListHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
+
+	//TODO
 }
 
 func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,10 +48,14 @@ func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TripIdHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
+
 	vars := mux.Vars(r)
 	idStr := vars[tripId]
 
 	//convert the string id in the URI to an int
+	//should not be an error, as the idStr must be digits based on the regex
 	id, err := strconv.Atoi(idStr)
 	if id < 0 || err != nil {
 		fmt.Println("Error parsing", id, "\n", err)
@@ -56,6 +69,9 @@ func TripIdHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TripNameHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
+
 	vars := mux.Vars(r)
 	name := vars[tripName]
 
