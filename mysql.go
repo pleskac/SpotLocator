@@ -19,6 +19,7 @@ type Location struct {
 
 //A single trip for a single map
 type Trip struct {
+	TripId      int
 	TripName    string
 	Coordinates []Location
 }
@@ -221,7 +222,7 @@ func GetTrip(id int) Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	myTrip := Trip{name, nil}
+	myTrip := Trip{id, name, nil}
 
 	rows, _, err = db.Query(gpsQuery)
 	if err != nil {
@@ -258,8 +259,8 @@ func GetTrip(id int) Trip {
 	return myTrip
 }
 
-func GetTripList() []int {
-	var list []int
+func GetTripList() []Trip {
+	var list []Trip
 	query := "select * from trips"
 
 	db := Connect()
@@ -272,7 +273,7 @@ func GetTripList() []int {
 
 	for _, row := range rows {
 		//Add every id of every trip to the list
-		list = append(list, row.Int(0))
+		list = append(list, Trip{row.Int(0), row.Str(1), nil})
 	}
 
 	return list
