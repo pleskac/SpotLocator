@@ -30,10 +30,14 @@ func endpoint() {
 }
 
 func TripListHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("in the handler")
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 
-	//TODO
+	output := GetTripList()
+
+	enc := json.NewEncoder(w)
+	enc.Encode(output)
 }
 
 func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
