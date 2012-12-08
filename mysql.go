@@ -190,7 +190,7 @@ func GetTrip(id int) Trip {
 	defer db.Close()
 
 	tripQuery := fmt.Sprintf("select * from trips where id = %d", id)
-	gpsQuery := fmt.Sprintf("select * from gps where trip = ", id)
+	gpsQuery := fmt.Sprintf("select * from gps where trip = %d", id)
 
 	rows, _, err := db.Query(tripQuery)
 	if err != nil {
