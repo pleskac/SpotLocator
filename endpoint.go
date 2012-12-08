@@ -29,7 +29,7 @@ func endpoint() {
 
 func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
-	w.Header().Set("Access-Control-Allow-Origin", "pleskac.org")
+	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 
 	currentTripId := GetCurrentTripId()
 	output := GetTrip(currentTripId)
