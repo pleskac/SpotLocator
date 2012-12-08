@@ -26,13 +26,14 @@ func endpoint() {
 		log.Fatal(http.ListenAndServe(":8080", nil))
 	*/
 	router := mux.NewRouter()
-	r := router.Host("{domain:pleskac.org:8080|localhost}").Subrouter()
+	r := router.Host("{domain:pleskac.org|api.pleskac.org|pleskac.org:8080|localhost}").Subrouter()
 	r.HandleFunc("/api/trips/{"+tripId+"}", TripHandler)
 	r.HandleFunc("/api/currentTrip", tripOutput)
 	//legacy. remove later.
 	r.HandleFunc("/trip.json", tripOutput)
 	//can add other JSON handlers here
 	http.Handle("/", r)
+
 }
 
 func TripHandler(w http.ResponseWriter, r *http.Request) {
