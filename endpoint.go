@@ -27,8 +27,6 @@ func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
 	currentTripId := GetCurrentTripId()
 	output := GetTrip(currentTripId)
 
-	fmt.Println(output)
-
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
 }
