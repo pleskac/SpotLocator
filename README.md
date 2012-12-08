@@ -26,19 +26,19 @@ HTML usage
 
 # Files #
 
-#### main.go ####
+##### main.go #####
 Main function. Calls spot.go to get new locations. Sends them to mysql.go to save them. Keeps track of the latest location, persisted in MySQL.
 
-#### mysql.go ####
+##### mysql.go #####
 Contacts the database. Saving and retrieving information supported. Formats the outputs to nice objects (maybe too much formatting).
 
-#### spot.go ####
+##### spot.go #####
 Deals with the Spot API. Returns a list of messages. Gets around a weird case of having 1 message vs multiple messages in json.
 
-#### endpoint.go ####
+##### endpoint.go #####
 Serves my custom API at pleskac.org/trip.json
 
-#### loadMap.json ####
+##### loadMap.json #####
 Consumes my custom API, creating a Google Map which is easily put into any \<div> named "map_canvas". The body must call "initialize()" upon loading. I do this within a blank page at pleskac.org/map.html and then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
 
 # TODO #
