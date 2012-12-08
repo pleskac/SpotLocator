@@ -32,8 +32,8 @@ func endpoint() {
 	//legacy. remove later.
 	r.HandleFunc("/trip.json", tripOutput)
 	//can add other JSON handlers here
-	http.Handle("/", r)
-
+	//http.Handle("/", r)
+	http.ListenAndServe(":8080", r)
 }
 
 func TripHandler(w http.ResponseWriter, r *http.Request) {
