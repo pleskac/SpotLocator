@@ -259,7 +259,6 @@ func GetTrip(id int) Trip {
 }
 
 func GetTripList() []int {
-	fmt.Println("in get trip list")
 	var list []int
 	query := "select * from trips"
 
@@ -275,9 +274,6 @@ func GetTripList() []int {
 		//Add every id of every trip to the list
 		list = append(list, row.Int(0))
 	}
-
-	fmt.Println("LIST:", list)
-	fmt.Println("Row count:", len(rows))
 
 	return list
 }
