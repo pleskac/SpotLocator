@@ -157,7 +157,7 @@ func EndTrips() {
 //TODO: this can be split up and organized better
 //Only allow this to access MySQL, move formatting data somewhere else
 //Also, could default to the current trip, or allow specific trips to be returned, that would allow multiple maps on the site
-func GetCurrentTrip() Trip {
+func GetCurrentTripId() int {
 	db := Connect()
 	defer db.Close()
 
@@ -169,20 +169,30 @@ func GetCurrentTrip() Trip {
 
 	if len(rows) > 1 {
 		fmt.Println("More than one row!! WRONG!")
-		return Trip{}
+		return -1
 	} else if len(rows) == 0 {
 		fmt.Println("0 rows! No current trip to return")
-		return Trip{}
+		return -1
 	}
-	id := rows[0].Str(0) //the first(only) row. the first element is the id.
-	return GetTrip(id)
+	id := rows[0].Int(0) //the first(only) row. the first element is the id.
+
+	fmt.Println("Current trip id is", id)
+
+	return id
 }
 
-func GetTrip(id string) Trip {
+func GetTrip(id int) Trip {
+	if id < 0 {
+		return Trip{}
+	}
+
 	db := Connect()
 	defer db.Close()
 
-	rows, _, err := db.Query("select * from trips where id = " + id)
+	tripQuery := fmt.Sprintf("select * from trips where id = %d", id)
+	gpsQuery := fmt.Sprintf("select * from gps where trip = ", id)
+
+	rows, _, err := db.Query(tripQuery)
 	if err != nil {
 		panic(err)
 	}
@@ -190,7 +200,7 @@ func GetTrip(id string) Trip {
 	name := (rows[0]).Str(1)
 	myTrip := Trip{name, nil}
 
-	rows, _, err = db.Query("select * from gps where trip = " + id)
+	rows, _, err = db.Query(gpsQuery)
 	if err != nil {
 		panic(err)
 	}

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	_ "log"
 	"net/http"
+	"strconv"
 )
 
 const tripId = "tripId"
@@ -15,15 +16,18 @@ func endpoint() {
 	router := mux.NewRouter()
 	r := router.Host("{domain:pleskac.org|api.pleskac.org|localhost}").Subrouter()
 
-	r.HandleFunc("/api/trip/id/{"+tripId+"}", TripIdHandler)
+	r.HandleFunc("/api/trip/id/{"+tripId+":[0-9]+}", TripIdHandler)
 	r.HandleFunc("/api/trip/name/{"+tripName+"}", TripNameHandler)
-	r.HandleFunc("/api/currentTrip", CurrentTripHandler)
+	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
 
 	http.ListenAndServe(":8080", r)
 }
 
 func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
-	output := GetCurrentTrip()
+	currentTripId := GetCurrentTripId()
+	output := GetTrip(currentTripId)
+
+	fmt.Println(output)
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
@@ -31,14 +35,19 @@ func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
 
 func TripIdHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id := vars[tripId]
+	idStr := vars[tripId]
+
+	//convert the string id in the URI to an int
+	id, err := strconv.Atoi(idStr)
+	if id < 0 || err != nil {
+		fmt.Println("Error parsing", id, "\n", err)
+		return
+	}
 
 	output := GetTrip(id)
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
-
-	fmt.Println("Id:", id)
 }
 
 func TripNameHandler(w http.ResponseWriter, r *http.Request) {
@@ -46,4 +55,5 @@ func TripNameHandler(w http.ResponseWriter, r *http.Request) {
 	name := vars[tripName]
 
 	fmt.Println("Name:", name)
+
 }
