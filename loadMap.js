@@ -1,8 +1,6 @@
 var infowindow;
 var map;
 function initialize() {
-
-	//http://pleskac.org/api/SouthAmerica
 	infowindow = new google.maps.InfoWindow();
 
 	jQuery.ajax("http://pleskac.org:8080/api/trip/currentTrip").done(
