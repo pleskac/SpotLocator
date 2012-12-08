@@ -10,7 +10,21 @@ Originally, I scraped the Twitter API. Then Twitter implemented mandatory OAuth,
 
 As a disclaimer, Spot started allowing users to save longer "trips" through a proprietary "Adventures" website (which only works in IE and Safari). It still is less customizable and less accessable than my solution.
 
-## Files ##
+# API #
+The base URL is ```pleskac.org:8080``` for my instance.
+
+todo:
+### /api/trip/list ###
+### /api/trip/currentTrip ###
+### /api/trip/id/{int} ###
+### /api/trip/name/{string} ###
+
+# Configuration #
+Account config
+Server setup
+HTML usage
+
+# Files #
 
 ### main.go ###
 Main function. Calls spot.go to get new locations. Sends them to mysql.go to save them. Keeps track of the latest location, persisted in MySQL.
@@ -27,9 +41,10 @@ Serves my custom API at pleskac.org/trip.json
 ### loadMap.json ###
 Consumes my custom API, creating a Google Map which is easily put into any \<div> named "map_canvas". The body must call "initialize()" upon loading. I do this within a blank page at pleskac.org/map.html and then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
 
-
-## TODO ##
+# TODO #
 * Move spot.go to new package to allow for reuse
 * Remove Twitter naming conventions in mysql.go
 * Refactor mysql.go to only contain DB calling, move formatting elsewhere
 * Support returning any trip, not just the current trip
+* Add Foursquare integration
+* Make configureable with config files
