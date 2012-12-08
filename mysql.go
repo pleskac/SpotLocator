@@ -174,12 +174,21 @@ func GetCurrentTrip() Trip {
 		fmt.Println("0 rows! No current trip to return")
 		return Trip{}
 	}
+	id := rows[0].Str(0) //the first(only) row. the first element is the id.
+	return GetTrip(id)
+}
+
+func GetTrip(id string) Trip {
+	db := Connect()
+	defer db.Close()
+
+	rows, _, err := db.Query("select * from trips where id = " + id)
+	if err != nil {
+		panic(err)
+	}
 
 	name := (rows[0]).Str(1)
 	myTrip := Trip{name, nil}
-
-	//Get the GPS coordinates of that trip
-	id := (rows[0]).Str(0)
 
 	rows, _, err = db.Query("select * from gps where trip = " + id)
 	if err != nil {
