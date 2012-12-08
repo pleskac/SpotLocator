@@ -275,7 +275,8 @@ func GetTripList() []int {
 		list = append(list, row.Int(0))
 	}
 
-	fmt.Println(list)
+	fmt.Println("LIST:", list)
+	fmt.Println("Row count:", len(rows))
 
 	return list
 }
