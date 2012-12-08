@@ -26,12 +26,12 @@ func endpoint() {
 		log.Fatal(http.ListenAndServe(":8080", nil))
 	*/
 	r := mux.NewRouter()
-	r.HandleFunc("/trips/{"+tripId+"}", TripHandler)
-	r.HandleFunc("/currentTrip", tripOutput)
+	r.HandleFunc("/api/trips/{"+tripId+"}", TripHandler)
+	r.HandleFunc("/api/currentTrip", tripOutput)
 	//legacy. remove later.
 	r.HandleFunc("/trip.json", tripOutput)
 	//can add other JSON handlers here
-	http.Handle("/", r)
+	http.Handle(":8080/", r)
 }
 
 func TripHandler(w http.ResponseWriter, r *http.Request) {
