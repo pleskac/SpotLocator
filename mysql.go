@@ -259,6 +259,7 @@ func GetTrip(id int) Trip {
 }
 
 func GetTripList() []int {
+	fmt.Println("in get trip list")
 	var list []int
 	query := "select * from trips"
 
