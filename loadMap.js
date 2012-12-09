@@ -21,7 +21,7 @@ function loadSelectBox(){
 }
 
 function changeMap(){
-	  var id = $("#TripSelectBox").val();
+	  var id = jQuery("#TripSelectBox").val();
 	  loadMap(id);
 }
 
