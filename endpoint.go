@@ -13,6 +13,10 @@ import (
 
 const tripId = "tripId"
 const tripName = "tripName"
+const longitude = "longitude"
+const latitude = "latitude"
+const gpsType = "gpsType"
+const gpsMessage = "gpsMessage"
 
 //JSON endpoints:
 //	/api/trip/id/{ID}		looks up by trip id
@@ -32,8 +36,32 @@ func endpoint() {
 	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
 	r.HandleFunc("/api/trip/list", TripListHandler)
 	r.HandleFunc("/api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
+	r.HandleFunc("api/gps/add/"+password+"/{"+longitude+"/{"+latitude+"}/{"+gpsType+"}/{"+gpsMessage+"}", AddGPSHandler)
 
 	http.ListenAndServe(":8080", r)
+}
+
+func AddGPSHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
+
+	vars := mux.Vars(r)
+	longStr := vars[longitude]
+	latStr := vars[latitude]
+
+	longFlt, err := strconv.ParseFloat(longStr, 64)
+	if err != nil {
+		fmt.Println("Error parsing", longStr, "\n", err)
+		return
+	}
+
+	latFlt, err := strconv.ParseFloat(latStr, 64)
+	if err != nil {
+		fmt.Println("Error parsing", latStr, "\n", err)
+		return
+	}
+
+	dblayer.AddGPSNow(longFlt, latFlt, vars[gpsMessage], vars[gpsType])
 }
 
 func AddTripHandler(w http.ResponseWriter, r *http.Request) {
@@ -49,7 +77,6 @@ func AddTripHandler(w http.ResponseWriter, r *http.Request) {
 
 	enc := json.NewEncoder(w)
 	enc.Encode(name)
-
 }
 
 func TripListHandler(w http.ResponseWriter, r *http.Request) {

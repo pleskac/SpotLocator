@@ -7,6 +7,11 @@ import (
 	"time"
 )
 
+func AddGPSNow(longitude, latitude float64, message, msgType string) {
+	now := time.Now().Unix()
+	AddGPS(longitude, latitude, message, msgType, now)
+}
+
 func AddGPS(longitude, latitude float64, message, msgType string, time int64) {
 	db := Connect()
 	defer db.Close()
