@@ -28,7 +28,7 @@ func getValue(idType string) string {
 	db := Connect()
 	defer db.Close()
 
-	rows, _, err := db.Query("SELECT * FROM kvp WHERE k = '" + idType + "'")
+	rows, _, err := db.Query("SELECT v FROM kvp WHERE k = '" + idType + "'")
 	if err != nil {
 		panic(err)
 	}
