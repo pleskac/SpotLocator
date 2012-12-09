@@ -1,8 +1,9 @@
 var infowindow;
 var map;
 
-jQuery(document).ready(loadMap);
+jQuery(document).ready(firstLoad);
 jQuery(document).ready(loadSelectBox);
+jQuery("#TripSelectBox").change(changeMap);
 
 function loadSelectBox(){
 	jQuery.ajax("http://pleskac.org:8080/api/trip/list").done(
@@ -18,10 +19,26 @@ function loadSelectBox(){
 	);
 }
 
-function loadMap(){
-	infowindow = new google.maps.InfoWindow();
+function changeMap(){
+	  var id = $("#TripSelectBox").val();
+	  loadMap(id);
+}
 
-	jQuery.ajax("http://pleskac.org:8080/api/trip/currentTrip").done(
+function firstLoad(){
+	loadMap(-1);
+}
+
+function loadMap(loadId){
+	infowindow = new google.maps.InfoWindow();
+	
+	var apiUrl = ""
+	if(loadMap == -1){
+		apiUrl = "http://pleskac.org:8080/api/trip/currentTrip";
+	}else{
+		apiUrl = "http://pleskac.org:8080/api/trip/id/" + loadId;
+	}
+
+	jQuery.ajax(apiUrl).done(
 		function(data){
 			trips = JSON.parse(data);
 				
