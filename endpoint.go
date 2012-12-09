@@ -20,6 +20,8 @@ const tripName = "tripName"
 //	/api/trip/currentTrip	returns the current trip
 //	/api/trip/list			returns a list of all trips
 func endpoint() {
+	password := dblayer.GetPassword()
+
 	router := mux.NewRouter()
 	r := router.Host("{domain:pleskac.org|api.pleskac.org|localhost}").Subrouter()
 
@@ -27,8 +29,23 @@ func endpoint() {
 	r.HandleFunc("/api/trip/name/{"+tripName+"}", TripNameHandler)
 	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
 	r.HandleFunc("/api/trip/list", TripListHandler)
+	r.HandleFunc("api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
 
 	http.ListenAndServe(":8080", r)
+}
+
+func AddTripHandler(w http.ResponseWriter, r *http.Request) {
+	// allow cross domain AJAX requests
+	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
+
+	vars := mux.Vars(r)
+	name := vars[tripName]
+
+	dblayer.CreateTrip(name)
+
+	enc := json.NewEncoder(w)
+	enc.Encode(name)
+
 }
 
 func TripListHandler(w http.ResponseWriter, r *http.Request) {
