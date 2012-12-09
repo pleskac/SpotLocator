@@ -23,7 +23,9 @@ The base URL is ```pleskac.org:8080``` for my instance.
 
 ``` /api/trip/add/{PASSWORD}/{string} ``` Adds a new trip and sets it to the current trip. The password is checked against the database. It's not very secure, more a deterrant to people abusing this API. All checkins after creating the new trip will go to this new current trip.
 
-``` /api/gps/add/{PASSWORD}/{double}/{double}/{string}/{string} ``` TODO. Adds a new GPS location with the passed in parameters. The order is: longitude, latitude, type, message. Automatically set to the timestamp of the call to the API and added to the current trip.
+``` /api/gps/add/{PASSWORD}/{double}/{double} ``` Adds a new GPS location with the passed in coordinates.  Automatically set to the timestamp of the call to the API and added to the current trip. Also the message type is ```TRACK``` and the details say that this check-in came from my iPhone, not the SPOT GPS.
+
+``` /api/gps/add/{PASSWORD}/{double}/{double}/{string} ``` Adds a new GPS location with the passed in coordinates.  Automatically set to the timestamp of the call to the API and added to the current trip. The message type is the last parameter. If the message type is not ```OK``` or ```TRACK``` then it is set to ```TRACK```. This doesn't make much sense now that I'm writing this description. In the future I may allow other message types, but I want to keep the types consistent with the SPOT API.
 
 ## Configuration ##
 Still need to code, then documentation will come
