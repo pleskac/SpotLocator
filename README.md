@@ -11,7 +11,7 @@ Originally, I scraped the Twitter API. Then Twitter implemented mandatory OAuth,
 As a disclaimer, Spot started allowing users to save longer "trips" through a proprietary "Adventures" website (which only works in IE and Safari). It still is less customizable and less accessable than my solution.
 
 ## API ##
-The base URL is ```pleskac.org:8080``` for my instance.
+The base URL is ```pleskac.org:8080``` for my instance because port ```80``` is being used by Wordpress. Eventually I'd like to write my own blogging software in Go and phase out Wordpress.
 
 ``` /api/trip/list ``` Returns a list of Trip objects.
 
