@@ -1,6 +1,7 @@
 package main
 
 import (
+	"./mysql"
 	"fmt"
 	"net/http"
 	"time"
@@ -8,28 +9,28 @@ import (
 
 var client *http.Client
 var param string
-var latestId int
+var latestSpotId int
 
 func main() {
 	//API endpoint
 	go endpoint()
 
-	//update latestId
-	latestId = GetLatestId()
+	//update latestSpotId
+	latestSpotId = mysql.GetLatestSpotId()
 
 	for {
-		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestId)
+		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestSpotId)
 
 		if err != nil {
 			fmt.Println("Error getting new locations:", err)
 		}
 
 		for _, location := range newLocations {
-			AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
+			mysql.AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
 
-			if location.Id > latestId {
-				latestId = location.Id
-				SaveLatestId(latestId)
+			if location.Id > latestSpotId {
+				latestSpotId = location.Id
+				mysql.SaveLatestSpotId(latestSpotId)
 			}
 		}
 
