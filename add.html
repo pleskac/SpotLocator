@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+	<head profile="http://gmpg.org/xfn/11">
+		<script type='text/javascript' src='http://pleskac.org/wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
+		<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.spin.js?ver=1.9.2-201247'></script>
+
+		<script type="text/javascript">
+		jQuery(document).ready(function(){
+			jQuery('#AddGPS').submit(
+				function () 
+				{ 
+					var base = 'http://www.pleskac.org:8080/api/gps/add'; 
+	   				var myLong = AddGPS.longitude.value;
+	   				var myLat = AddGPS.latitude.value;
+	   				var myPass = AddGPS.password.value;
+
+	   				var myUrl = base + "/" + myPass + "/" + myLat + "/" + myLong;
+	   				console.log(myUrl);
+	   				jQuery.ajax(myUrl).done(function(data){
+	   					console.log(data);
+	   					jQuery("span").text(data).show();
+					});
+
+					return false;
+				}
+			);
+
+
+			jQuery("#AddTrip").submit(
+				function () { 
+					var base = 'http://www.pleskac.org:8080/api/trip/add'; 
+	   				var name = AddTrip.tripName.value;
+	   				var myPass = AddTrip.password.value;
+
+	   				var myUrl = base + "/" + myPass + "/" + name;
+	   				console.log(myUrl);
+	   				jQuery.ajax(myUrl).done(function(data){
+	   					console.log(data);
+	   					jQuery("span").text(data).show();
+					});
+
+					return false;
+				}
+			);
+		});
+		</script> 
+
+		<style type="text/css">
+		        p {font-size:12px; font-family: Helvetica, Arial, sans-serif}
+		</style>
+	</head>
+
+	<body>
+		<form name="AddTrip" id="AddTrip">
+			PASSWORD: <input type="text" name="password" /><br />
+			Trip name: <input type="text" name="tripName" />
+			<input type="submit" />
+		</form>
+
+		<br />
+
+		<form id="AddGPS" name="AddGPS">
+			PASSWORD: <input type="text" name="password" /><br />
+			Longitude: <input type="text" name="longitude" /><br />
+			Latitude: <input type="text" name="latitude" />
+			<input type="submit" />
+		</form>
+
+		<br />
+
+		<span></span>
+	</body>
+</html>
