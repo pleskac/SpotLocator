@@ -23,6 +23,8 @@ The base URL is ```pleskac.org:8080``` for my instance.
 
 ``` /api/trip/add/{PASSWORD}/{string} ``` Adds a new trip and sets it to the current trip. The password is checked against the database. It's not very secure, more a deterrant to people abusing this API. All checkins after creating the new trip will go to this new current trip.
 
+``` /api/gps/add/{PASSWORD}/{double}/{double} ``` TODO. Adds a new GPS location with the longitude, then latitude to the current trip.
+
 ## Configuration ##
 Still need to code, then documentation will come
 * Account config
