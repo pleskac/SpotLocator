@@ -7,6 +7,10 @@ import (
 	"strconv"
 )
 
+/////////////////////////////////////////
+//             Public API              //
+/////////////////////////////////////////
+
 func GetLatestSpotId() int {
 	spotStr := getValue(lATEST_SPOT)
 	spotId, err := strconv.Atoi(spotStr)
@@ -23,6 +27,14 @@ func SaveLatestSpotId(id int) {
 	idStr := fmt.Sprintf("%d", id)
 	saveValue(lATEST_SPOT, idStr)
 }
+
+func GetPassword() string {
+	return getValue(pASSWORD)
+}
+
+/////////////////////////////////////////
+//         Internal Functions          //
+/////////////////////////////////////////
 
 func getValue(idType string) string {
 	db := Connect()
