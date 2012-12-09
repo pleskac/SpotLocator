@@ -2,99 +2,10 @@ package dblayer
 
 import (
 	"fmt"
-	z_mysql "github.com/ziutek/mymysql/mysql"
-	//This reference is necessary, otherwise a panic will occur upon calling mysql.New()
+	_ "github.com/ziutek/mymysql/mysql"
 	_ "github.com/ziutek/mymysql/native"
-	"strconv"
 	"time"
 )
-
-//internal constants
-const (
-	lATEST_SPOT = "SPOT"
-	pASSWORD    = "PASSWORD"
-)
-
-//Every GPS location for a trip
-type Location struct {
-	Longitude float64
-	Latitude  float64
-	Title     string
-	Details   string
-	Color     string
-}
-
-//A single trip for a single map
-type Trip struct {
-	TripId      int
-	TripName    string
-	IsCurrent   int
-	Coordinates []Location
-}
-
-func Connect() z_mysql.Conn {
-	//Set up database connection
-	db := z_mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")
-	err := db.Connect()
-	if err != nil {
-		fmt.Println("ERROR CONNECTING:", err)
-		panic(err)
-	}
-
-	return db
-}
-
-func GetLatestSpotId() int {
-	spotStr := getValue(lATEST_SPOT)
-	spotId, err := strconv.Atoi(spotStr)
-
-	if err != nil {
-		fmt.Println(err)
-		return -1
-	}
-
-	return spotId
-}
-
-func getValue(idType string) string {
-	db := Connect()
-	defer db.Close()
-
-	rows, _, err := db.Query("SELECT v FROM kvp WHERE k = " + idType)
-	if err != nil {
-		panic(err)
-	}
-
-	if len(rows) < 1 {
-		return "-1"
-	}
-
-	return rows[0].Str(0)
-}
-
-func SaveLatestSpotId(id int) {
-	idStr := fmt.Sprintf("%d", id)
-	saveValue(lATEST_SPOT, idStr)
-}
-
-func saveValue(key string, newValue string) {
-	db := Connect()
-	defer db.Close()
-
-	//Delete that row, if it exists
-	stmt, err := db.Prepare("DELETE FROM kvp WHERE k = " + key)
-	_, err = stmt.Run()
-	if err != nil {
-		//row did not exist, we'll just add it later
-	}
-
-	//Insert new row
-	stmt, err = db.Prepare("INSERT INTO kvp (k, v) VALUES (?, ?)")
-	_, err = stmt.Run(key, newValue)
-	if err != nil {
-		panic(err)
-	}
-}
 
 func AddGPS(longitude, latitude float64, message, msgType string, time int64) {
 	db := Connect()
