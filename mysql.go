@@ -261,7 +261,7 @@ func GetTrip(id int) Trip {
 
 func GetTripList() []Trip {
 	var list []Trip
-	query := "select * from trips"
+	query := "SELECT * FROM trips ORDER BY id DESCENDING"
 
 	db := Connect()
 	defer db.Close()
