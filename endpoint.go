@@ -31,7 +31,7 @@ func endpoint() {
 	r.HandleFunc("/api/trip/name/{"+tripName+"}", TripNameHandler)
 	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
 	r.HandleFunc("/api/trip/list", TripListHandler)
-	r.HandleFunc("api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
+	r.HandleFunc("/api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
 
 	http.ListenAndServe(":8080", r)
 }
