@@ -36,7 +36,7 @@ func endpoint() {
 	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
 	r.HandleFunc("/api/trip/list", TripListHandler)
 	r.HandleFunc("/api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
-	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"/{"+latitude+"}/{"+gpsType+"}/{"+gpsMessage+"}", AddGPSHandler)
+	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"}/{"+latitude+"}/{"+gpsType+"}/{"+gpsMessage+"}", AddGPSHandler)
 
 	http.ListenAndServe(":8080", r)
 }
