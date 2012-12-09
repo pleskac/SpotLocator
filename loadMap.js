@@ -50,9 +50,12 @@ function loadMap(loadId){
 			trips = JSON.parse(data);
 				
 			var flightPlanCoordinates = [];
-			jQuery.each(trips.Coordinates, function(){
-				flightPlanCoordinates.push(new google.maps.LatLng(this.Latitude, this.Longitude));
-			});
+
+			if(trips.Coordinates != null){
+				jQuery.each(trips.Coordinates, function(){
+					flightPlanCoordinates.push(new google.maps.LatLng(this.Latitude, this.Longitude));
+				});
+			}
 
 			var mapOptions = {
 				zoom: 15,
@@ -65,11 +68,14 @@ function loadMap(loadId){
 			map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
 
 			var bounds = new google.maps.LatLngBounds();
-			jQuery.each(trips.Coordinates, function(){
-				var position = new google.maps.LatLng(this.Latitude, this.Longitude);
-				createMarker(position, this.Details, this.Color);
-				bounds.extend(position);
-			});
+
+			if(trips.Coordinates != null){
+				jQuery.each(trips.Coordinates, function(){
+					var position = new google.maps.LatLng(this.Latitude, this.Longitude);
+					createMarker(position, this.Details, this.Color);
+					bounds.extend(position);
+				});
+			}
 
 			map.fitBounds(bounds);
 
