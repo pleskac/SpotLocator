@@ -59,7 +59,7 @@ function loadMap(loadId){
 
 			var mapOptions = {
 				zoom: 13,
-				center: new google.maps.LatLng(40.8, -96.7),
+				center: new google.maps.LatLng(0, 0),
 				mapTypeId: google.maps.MapTypeId.TERRAIN,
 				streetViewControl: false,
 				scrollwheel: false
