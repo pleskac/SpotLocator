@@ -64,6 +64,9 @@ Consumes my custom API, creating a Google Map which is easily put into any ```<d
 ``` map.html ```
 This displays the map and select box wrapped up in html. The json file makes this work. A little CSS formatting included.
 
+``` add.html ```
+Two simple forms. One adds and starts a new trip. The other adds a GPS location to the current trip. This uses my API and is password protected (kinda). I can use this in Tierra del Fuego if I have WiFi and my SPOT doesn't work to manually add points.  
+
 ## TODO ##
 * Timestamp is in wrong timezone. Adjust to reflect the browser's timezone?
 * TESTS!!!
