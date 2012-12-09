@@ -3,7 +3,6 @@ var map;
 
 jQuery(document).ready(firstLoad);
 jQuery(document).ready(loadSelectBox);
-jQuery("#TripSelectBox").change(changeMap);
 
 function loadSelectBox(){
 	jQuery.ajax("http://pleskac.org:8080/api/trip/list").done(
@@ -17,6 +16,8 @@ function loadSelectBox(){
 			});
 		}
 	);
+
+	jQuery("#TripSelectBox").change(changeMap);
 }
 
 function changeMap(){
@@ -30,7 +31,7 @@ function firstLoad(){
 
 function loadMap(loadId){
 	infowindow = new google.maps.InfoWindow();
-	
+
 	var apiUrl = ""
 	if(loadId == -1){
 		apiUrl = "http://pleskac.org:8080/api/trip/currentTrip";
