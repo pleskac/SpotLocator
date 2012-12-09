@@ -60,6 +60,7 @@ Consumes my custom API, creating a Google Map which is easily put into any ```<d
 This displays the map and select box wrapped up in html.
 
 ## TODO ##
+* Timestamp is in wrong timezone. Adjust to reflect the browser's timezone?
 * TESTS!!!
 * Move spot.go to new package to allow for reuse
 * Remove Twitter naming conventions in mysql.go
