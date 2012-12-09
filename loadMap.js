@@ -12,7 +12,13 @@ function loadSelectBox(){
 			jQuery.each(tripList, function(){
 				var id = this.TripId;
 				var name = this.TripName;
-				jQuery("#TripSelectBox").append("<option value='" + id + "'>" + name + "</option>");
+				var current = this.IsCurrent;
+
+				if(IsCurrent == 0){
+					jQuery("#TripSelectBox").append("<option value='" + id + "'>" + name + "</option>");
+				}else{
+					jQuery("#TripSelectBox").append("<option value='" + id + "'>(Current) " + name + "</option>");
+				}
 			});
 		}
 	);
