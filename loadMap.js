@@ -14,7 +14,7 @@ function loadSelectBox(){
 				var name = this.TripName;
 				var current = this.IsCurrent;
 
-				if(IsCurrent == 0){
+				if(current == 0){
 					jQuery("#TripSelectBox").append("<option value='" + id + "'>" + name + "</option>");
 				}else{
 					jQuery("#TripSelectBox").append("<option value='" + id + "'>(Current) " + name + "</option>");
