@@ -63,7 +63,5 @@ This displays the map and select box wrapped up in html.
 * Timestamp is in wrong timezone. Adjust to reflect the browser's timezone?
 * TESTS!!!
 * Move spot.go to new package to allow for reuse
-* Remove Twitter naming conventions in mysql.go
-* Refactor mysql.go to only contain DB calling, move formatting elsewhere
 * Add Foursquare integration
 * Make configureable with config files
