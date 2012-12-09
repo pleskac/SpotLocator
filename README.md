@@ -13,19 +13,15 @@ As a disclaimer, Spot started allowing users to save longer "trips" through a pr
 ## API ##
 The base URL is ```pleskac.org:8080``` for my instance.
 
-#### /api/trip/list ####
-Returns a list of Trip objects.
+``` /api/trip/list ``` Returns a list of Trip objects.
 
-#### /api/trip/currentTrip ####
-Returns a Trip object of the current trip. Returns an empty trip if there are no current trips.
+``` /api/trip/currentTrip ``` Returns a Trip object of the current trip. Returns an empty trip if there are no current trips.
 
-#### /api/trip/id/{int} ####
-Returns a trip object matching the key. Returns an empty trip if it is not found in the database.
+``` /api/trip/id/{int} ``` Returns a trip object matching the key. Returns an empty trip if it is not found in the database.
 
-#### /api/trip/name/{string} ####
-Returns a single trip object of the same name. It does string matching and returns the first trip found if multiple trips match the string. 
+``` /api/trip/name/{string} ```Returns a single trip object of the same name. It does string matching and returns the first trip found if multiple trips match the string. Not sure what this will be used for. The list of trip objects could be used for searching and selecting. The id can be used to get for a specific trip. This is basically for fun and/or testing.
 
-Not sure what this will be used for. The list of trip objects could be used for searching and selecting. The id can be used to get for a specific trip. This is basically for fun and/or testing.
+``` /api/trip/add/{PASSWORD}/{string} ``` Adds a new trip and sets it to the current trip. The password is checked against the database. It's not very secure, more a deterrant to people abusing this API. All checkins after creating the new trip will go to this new current trip.
 
 ## Configuration ##
 Still need to code, then documentation will come
