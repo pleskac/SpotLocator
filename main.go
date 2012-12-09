@@ -26,6 +26,8 @@ func main() {
 		}
 
 		for _, location := range newLocations {
+			fmt.Println("Adding new GPS location", location.MessageType)
+
 			dblayer.AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
 
 			if location.Id > latestSpotId {
