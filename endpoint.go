@@ -1,8 +1,8 @@
 package main
 
 import (
-	//change to github.com/pleskac/SpotLocator/mysql
-	"./mysql"
+	//change to github.com/pleskac/SpotLocator/dblayer
+	"./dblayer"
 	"code.google.com/p/gorilla/mux"
 	"encoding/json"
 	"fmt"
@@ -35,7 +35,7 @@ func TripListHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 
-	output := mysql.GetTripList()
+	output := dblayer.GetTripList()
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
@@ -45,8 +45,8 @@ func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 
-	currentTripId := mysql.GetCurrentTripId()
-	output := mysql.GetTrip(currentTripId)
+	currentTripId := dblayer.GetCurrentTripId()
+	output := dblayer.GetTrip(currentTripId)
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
@@ -67,7 +67,7 @@ func TripIdHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	output := mysql.GetTrip(id)
+	output := dblayer.GetTrip(id)
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
@@ -80,12 +80,12 @@ func TripNameHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars[tripName]
 
-	id := mysql.FindTrip(name)
+	id := dblayer.FindTrip(name)
 	if id < 0 {
 		return
 	}
 
-	output := mysql.GetTrip(id)
+	output := dblayer.GetTrip(id)
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)

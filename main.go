@@ -1,7 +1,7 @@
 package main
 
 import (
-	"./mysql"
+	"./dblayer"
 	"fmt"
 	"net/http"
 	"time"
@@ -16,7 +16,7 @@ func main() {
 	go endpoint()
 
 	//update latestSpotId
-	latestSpotId = mysql.GetLatestSpotId()
+	latestSpotId = dblayer.GetLatestSpotId()
 
 	for {
 		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestSpotId)
@@ -26,11 +26,11 @@ func main() {
 		}
 
 		for _, location := range newLocations {
-			mysql.AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
+			dblayer.AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
 
 			if location.Id > latestSpotId {
 				latestSpotId = location.Id
-				mysql.SaveLatestSpotId(latestSpotId)
+				dblayer.SaveLatestSpotId(latestSpotId)
 			}
 		}
 
