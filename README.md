@@ -13,11 +13,11 @@ As a disclaimer, Spot started allowing users to save longer "trips" through a pr
 ## API ##
 The base URL is ```pleskac.org:8080``` for my instance because port ```80``` is being used by Wordpress. Eventually I'd like to write my own blogging software in Go and phase out Wordpress.
 
-``` /api/trip/list ``` Returns a list of Trip objects.
+``` /api/trip/list ``` Returns a list of Trip objects. This is used for the dropdown select box. Does not return coordinates of every trip to keep the data to a minimum.
 
 ``` /api/trip/currentTrip ``` Returns a Trip object of the current trip. Returns an empty trip if there are no current trips.
 
-``` /api/trip/id/{int} ``` Returns a trip object matching the key. Returns an empty trip if it is not found in the database.
+``` /api/trip/id/{int} ``` Returns a trip object matching the id (key in the database). Returns an empty trip if it is not found in the database.
 
 ``` /api/trip/name/{string} ```Returns a single trip object of the same name. It does string matching and returns the first trip found if multiple trips match the string. Not sure what this will be used for. The list of trip objects could be used for searching and selecting. The id can be used to get for a specific trip. This is basically for fun and/or testing.
 
@@ -48,15 +48,21 @@ Serves my custom API. See the API section for URIs this handles
 
 ### Package dblayer ###
 
-``` dblayer/*.go ```
-Contacts the database. Saving and retrieving information supported. Formats the outputs to nice objects (maybe too much formatting).
+``` dblayer/generics.go ```
+Makes the database connection and returns a DB object. Has all of the external types that may be returned (like ```Trip```)
+
+``` dblayer/kvp.go ```
+Accesses the Key Value Pair table. This is basically a settings file. Right now this stores the latest SPOT id and my password. In the future it can be used to store other current ids of other systems.
+
+``` dblayer/trips.go ```
+ Saving and retrieving trip and gps information. Formats the outputs to nice objects (maybe too much formatting).
 
 ### Other Files ###
 ``` loadMap.json ```
 Consumes my custom API, creating a Google Map which is easily put into any ```<div>``` named ```map_canvas```. Also includes a select box that allows selection of all trips. The current trip is denoted by ```(Current)``` if it exists. Example page at ```pleskac.org/map.html```. I then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
 
 ``` map.html ```
-This displays the map and select box wrapped up in html.
+This displays the map and select box wrapped up in html. The json file makes this work. A little CSS formatting included.
 
 ## TODO ##
 * Timestamp is in wrong timezone. Adjust to reflect the browser's timezone?
