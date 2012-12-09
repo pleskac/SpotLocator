@@ -1,18 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
-<head profile="http://gmpg.org/xfn/11">
+	<head profile="http://gmpg.org/xfn/11">
+		<script type='text/javascript' src='http://pleskac.org/wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
+		<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.spin.js?ver=1.9.2-201247'></script>
+		<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+		<script src="loadMap.js"></script>
+		<style type="text/css">
+		        p {font-size:12px; font-family: Helvetica, Arial, sans-serif}
+		</style>
+	</head>
 
-<HTML>
-  <HEAD>
-<script type='text/javascript' src='http://pleskac.org/wp-includes/js/jquery/jquery.js?ver=1.7.2'></script>
-<script type='text/javascript' src='http://s1.wp.com/wp-includes/js/jquery/jquery.spin.js?ver=1.9.2-201247'></script>
-<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script src="loadMap.js"></script>
-<style type="text/css">
-        p {font-size:12px; font-family: Helvetica, Arial, sans-serif}
-</style>
- </HEAD>
-  <BODY onload="initialize()">
-<div id="map_canvas" style="width: 750px; height: 600px;"></div>
-  </BODY>
-</HTML>
+	<body onload="initialize()">
+		<select>
+			<option value="5">Current Trip</option>
+			<option value="4">Fall Break</option>
+		</select>
+		<div id="map_canvas" style="width: 750px; height: 600px;"></div>
+	</body>
+</html>
