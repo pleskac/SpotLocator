@@ -21,7 +21,7 @@ type Location struct {
 type Trip struct {
 	TripId      int
 	TripName    string
-	IsCurrent   bool
+	IsCurrent   int
 	Coordinates []Location
 }
 
@@ -223,7 +223,7 @@ func GetTrip(id int) Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	isCurrent := (rows[0]).Bool(3)
+	isCurrent := (rows[0]).Int(3)
 	myTrip := Trip{id, name, isCurrent, nil}
 
 	rows, _, err = db.Query(gpsQuery)
@@ -275,7 +275,7 @@ func GetTripList() []Trip {
 
 	for _, row := range rows {
 		//Add every id of every trip to the list
-		list = append(list, Trip{row.Int(0), row.Str(1), row.Bool(3), nil})
+		list = append(list, Trip{row.Int(0), row.Str(1), row.Int(3), nil})
 	}
 
 	return list
