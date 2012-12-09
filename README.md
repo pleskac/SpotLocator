@@ -59,7 +59,7 @@ Accesses the Key Value Pair table. This is basically a settings file. Right now 
 
 ### Other Files ###
 ``` loadMap.json ```
-Consumes my custom API, creating a Google Map which is easily put into any ```<div>``` named ```map_canvas```. Also includes a select box that allows selection of all trips. The current trip is denoted by ```(Current)``` if it exists. Example page at ```pleskac.org/map.html```. I then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
+Consumes my custom API, creating a Google Map which is easily put into any ```<div>``` named ```map_canvas```. Also includes a select box that allows selection of all trips. The current trip is denoted by ```(Current)``` if it exists. I then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
 
 ``` map.html ```
 This displays the map and select box wrapped up in html. The json file makes this work. A little CSS formatting included.
