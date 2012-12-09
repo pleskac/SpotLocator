@@ -275,7 +275,7 @@ func GetTripList() []Trip {
 
 	for _, row := range rows {
 		//Add every id of every trip to the list
-		list = append(list, Trip{row.Int(0), row.Str(1), nil})
+		list = append(list, Trip{row.Int(0), row.Str(1), row.Bool(3), nil})
 	}
 
 	return list
