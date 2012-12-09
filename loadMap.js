@@ -1,8 +1,8 @@
 var infowindow;
 var map;
 
-$(document).ready(loadMap);
-$(document).ready(loadSelectBox);
+jQuery(document).ready(loadMap);
+jQuery(document).ready(loadSelectBox);
 
 function loadSelectBox(){
 	jQuery.ajax("http://pleskac.org:8080/api/trip/list").done(
@@ -12,7 +12,7 @@ function loadSelectBox(){
 			jQuery.each(tripList, function(){
 				var id = this.TripId;
 				var name = this.TripName;
-				$("#TripSelectBox").append("<option value='" + id + "'>" + name + "</option>");
+				jQuery("#TripSelectBox").append("<option value='" + id + "'>" + name + "</option>");
 			});
 		}
 	);
