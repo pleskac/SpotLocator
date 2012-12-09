@@ -22,6 +22,8 @@ const tripName = "tripName"
 func endpoint() {
 	password := dblayer.GetPassword()
 
+	fmt.Println("PASSWORD:", password)
+
 	router := mux.NewRouter()
 	r := router.Host("{domain:pleskac.org|api.pleskac.org|localhost}").Subrouter()
 
