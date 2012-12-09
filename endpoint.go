@@ -49,6 +49,8 @@ func AddGPSHandler(w http.ResponseWriter, r *http.Request) {
 	longStr := vars[longitude]
 	latStr := vars[latitude]
 
+	fmt.Println("Adding GPS location via webservice")
+
 	longFlt, err := strconv.ParseFloat(longStr, 64)
 	if err != nil {
 		fmt.Println("Error parsing", longStr, "\n", err)
@@ -62,6 +64,9 @@ func AddGPSHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	dblayer.AddGPSNow(longFlt, latFlt, vars[gpsMessage], vars[gpsType])
+
+	enc := json.NewEncoder(w)
+	enc.Encode(vars[gpsType])
 }
 
 func AddTripHandler(w http.ResponseWriter, r *http.Request) {
