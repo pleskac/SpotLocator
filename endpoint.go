@@ -16,7 +16,6 @@ const tripName = "tripName"
 const longitude = "longitude"
 const latitude = "latitude"
 const gpsType = "gpsType"
-const gpsMessage = "gpsMessage"
 
 //JSON endpoints:
 //	/api/trip/id/{ID}		looks up by trip id
@@ -36,8 +35,8 @@ func endpoint() {
 	r.HandleFunc("/api/trip/currentTrip", CurrentTripHandler)
 	r.HandleFunc("/api/trip/list", TripListHandler)
 	r.HandleFunc("/api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
-	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"}/{"+latitude+"}/{"+gpsType+"}/{"+gpsMessage+"}", AddGPSHandler)
-
+	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"}/{"+latitude+"}", AddGPSHandler)
+	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"}/{"+latitude+"}/{"+gpsType+"}", AddGPSHandler)
 	http.ListenAndServe(":8080", r)
 }
 
@@ -63,10 +62,15 @@ func AddGPSHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	dblayer.AddGPSNow(longFlt, latFlt, vars[gpsMessage], vars[gpsType])
+	standardType := vars[gpsType]
+	if standardType != "OK" && standardType != "TRACK" {
+		standardType = "TRACK"
+	}
+
+	dblayer.AddGPSNow(longFlt, latFlt, "This was sent via iPhone, not SPOT.", standardType)
 
 	enc := json.NewEncoder(w)
-	enc.Encode(vars[gpsType])
+	enc.Encode(standardType)
 }
 
 func AddTripHandler(w http.ResponseWriter, r *http.Request) {
