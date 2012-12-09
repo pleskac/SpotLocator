@@ -28,7 +28,7 @@ func getValue(idType string) string {
 	db := Connect()
 	defer db.Close()
 
-	rows, _, err := db.Query("SELECT v FROM kvp WHERE k = " + idType)
+	rows, _, err := db.Query("SELECT * FROM kvp WHERE k = '" + idType + "'")
 	if err != nil {
 		panic(err)
 	}
@@ -45,7 +45,7 @@ func saveValue(key string, newValue string) {
 	defer db.Close()
 
 	//Delete that row, if it exists
-	stmt, err := db.Prepare("DELETE FROM kvp WHERE k = " + key)
+	stmt, err := db.Prepare("DELETE FROM kvp WHERE k = '" + key + "'")
 	_, err = stmt.Run()
 	if err != nil {
 		//row did not exist, we'll just add it later
