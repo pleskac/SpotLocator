@@ -32,7 +32,7 @@ function loadMap(loadId){
 	infowindow = new google.maps.InfoWindow();
 	
 	var apiUrl = ""
-	if(loadMap == -1){
+	if(loadId == -1){
 		apiUrl = "http://pleskac.org:8080/api/trip/currentTrip";
 	}else{
 		apiUrl = "http://pleskac.org:8080/api/trip/id/" + loadId;
