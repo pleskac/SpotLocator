@@ -21,6 +21,7 @@ type Location struct {
 type Trip struct {
 	TripId      int
 	TripName    string
+	IsCurrent   bool
 	Coordinates []Location
 }
 
@@ -222,7 +223,8 @@ func GetTrip(id int) Trip {
 	}
 
 	name := (rows[0]).Str(1)
-	myTrip := Trip{id, name, nil}
+	isCurrent := (rows[0]).Bool(3)
+	myTrip := Trip{id, name, isCurrent, nil}
 
 	rows, _, err = db.Query(gpsQuery)
 	if err != nil {
