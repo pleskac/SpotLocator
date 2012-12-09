@@ -35,26 +35,25 @@ Still need to code, then documentation will come
 
 ### Package main ###
 
-#### main.go ####
+``` main.go ```
 Main function. Calls spot.go to get new locations. Sends them to mysql.go to save them. Keeps track of the latest location, persisted in MySQL.
 
-#### spot.go ####
+``` spot.go ```
 Deals with the Spot API. Returns a list of messages. Gets around a weird case of having 1 message vs multiple messages in json.
 
-#### endpoint.go ####
+``` endpoint.go ```
 Serves my custom API. See the API section for URIs this handles
 
 ### Package dblayer ###
-todo... :/
 
-#### dblayer/*.go ####
+``` dblayer/*.go ```
 Contacts the database. Saving and retrieving information supported. Formats the outputs to nice objects (maybe too much formatting).
 
 ### Other Files ###
-#### loadMap.json ####
+``` loadMap.json ```
 Consumes my custom API, creating a Google Map which is easily put into any ```<div>``` named ```map_canvas```. Also includes a select box that allows selection of all trips. The current trip is denoted by ```(Current)``` if it exists. Example page at ```pleskac.org/map.html```. I then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
 
-#### map.html ####
+``` map.html ```
 This displays the map and select box wrapped up in html.
 
 ## TODO ##
