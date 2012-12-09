@@ -43,7 +43,9 @@ func AddTripHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars[tripName]
 
-	dblayer.CreateTrip(name)
+	if name != "" {
+		dblayer.CreateTrip(name)
+	}
 
 	enc := json.NewEncoder(w)
 	enc.Encode(name)
