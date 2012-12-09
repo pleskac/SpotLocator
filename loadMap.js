@@ -1,6 +1,24 @@
 var infowindow;
 var map;
-function initialize() {
+
+$(document).ready(loadMap);
+$(document).ready(loadSelectBox);
+
+function loadSelectBox(){
+	jQuery.ajax("http://pleskac.org:8080/api/trip/list").done(
+		function(data){
+			tripList = JSON.parse(data);
+
+			jQuery.each(tripList, function(){
+				var id = this.TripId;
+				var name = this.TripName;
+				$("#TripSelectBox").append("<option value='" + id + "'>" + name + "</option>");
+			});
+		}
+	);
+}
+
+function loadMap(){
 	infowindow = new google.maps.InfoWindow();
 
 	jQuery.ajax("http://pleskac.org:8080/api/trip/currentTrip").done(
