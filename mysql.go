@@ -85,7 +85,7 @@ func AddGPS(longitude, latitude float64, message, msgType string, time int64) {
 	defer db.Close()
 
 	//Get the current trip, if it exists
-	rows, _, err := db.Query("select id from trips where current = 1")
+	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")
 	if err != nil {
 		panic(err)
 	}
@@ -163,7 +163,7 @@ func GetCurrentTripId() int {
 	defer db.Close()
 
 	//Get the current trip, if it exists
-	rows, _, err := db.Query("select * from trips where current = 1")
+	rows, _, err := db.Query("SELECT * FROM trips WHERE current = 1")
 	if err != nil {
 		panic(err)
 	}
@@ -184,7 +184,7 @@ func FindTrip(name string) int {
 	db := Connect()
 	defer db.Close()
 
-	query := "select * from trips where name like '%" + name + "%'"
+	query := "SELECT * FROM trips WHERE name LIKE '%" + name + "%'"
 
 	rows, _, err := db.Query(query)
 	if err != nil {
@@ -208,8 +208,8 @@ func GetTrip(id int) Trip {
 	db := Connect()
 	defer db.Close()
 
-	tripQuery := fmt.Sprintf("select * from trips where id = %d", id)
-	gpsQuery := fmt.Sprintf("select * from gps where trip = %d", id)
+	tripQuery := fmt.Sprintf("SELECT * FROM trips WHERE id = %d", id)
+	gpsQuery := fmt.Sprintf("SELECT * FROM gps WHERE trip = %d", id)
 
 	rows, _, err := db.Query(tripQuery)
 	if err != nil {
@@ -261,7 +261,7 @@ func GetTrip(id int) Trip {
 
 func GetTripList() []Trip {
 	var list []Trip
-	query := "SELECT * FROM trips ORDER BY id DESCENDING"
+	query := "SELECT * FROM trips ORDER BY id DESC"
 
 	db := Connect()
 	defer db.Close()
