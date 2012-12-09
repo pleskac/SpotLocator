@@ -20,10 +20,10 @@ function loadSelectBox(){
 					jQuery("#TripSelectBox").append("<option value='" + id + "'>(Current) " + name + "</option>");
 				}
 			});
+			jQuery("#TripSelectBox").change(changeMap);
 		}
 	);
 
-	jQuery("#TripSelectBox").ready(changeMap);
 	jQuery("#TripSelectBox").change(changeMap);
 }
 
