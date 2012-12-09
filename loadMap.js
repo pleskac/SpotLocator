@@ -1,7 +1,7 @@
 var infowindow;
 var map;
 
-jQuery(document).ready(firstLoad);
+//jQuery(document).ready(firstLoad);
 jQuery(document).ready(loadSelectBox);
 
 function loadSelectBox(){
@@ -23,6 +23,7 @@ function loadSelectBox(){
 		}
 	);
 
+	jQuery("#TripSelectBox").ready(changeMap);
 	jQuery("#TripSelectBox").change(changeMap);
 }
 
