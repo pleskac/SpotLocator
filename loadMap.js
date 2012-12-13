@@ -4,7 +4,7 @@ var map;
 jQuery(document).ready(loadSelectBox);
 
 function loadSelectBox(){
-	var element =  document.getElementById('#TripSelectBox');
+	var element =  document.getElementById('TripSelectBox');
 	if (typeof(element) == 'undefined' || element == null)
 	{
 		// does not exist. get the id from the URL and send it to load map.
@@ -12,7 +12,7 @@ function loadSelectBox(){
 		if(urlTripId == 'undefined' || urlTripId == 'null'){
 			urlTripId = -1;
 		}
-		
+
 		loadMap(urlTripId);
 
 		return;
