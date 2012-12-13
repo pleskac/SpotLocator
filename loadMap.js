@@ -7,10 +7,15 @@ function loadSelectBox(){
 	var element =  document.getElementById('#TripSelectBox');
 	if (typeof(element) == 'undefined' || element == null)
 	{
-	  // does not exist. get the id from the URL and send it to load map.
-	  var urlTripId = getUrlVars()["id"];
-	  loadMap(urlTripId);
-	  return;
+		// does not exist. get the id from the URL and send it to load map.
+		var urlTripId = getUrlVars()["id"];
+		if(urlTripId == 'undefined' || urlTripId == 'null'){
+			urlTripId = -1;
+		}
+		
+		loadMap(urlTripId);
+
+		return;
 	}
 
 	jQuery.ajax("http://pleskac.org:8080/api/trip/list").done(
