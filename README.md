@@ -59,10 +59,13 @@ Accesses the Key Value Pair table. This is basically a settings file. Right now 
 
 ### Other Files ###
 ``` loadMap.json ```
-Consumes my custom API, creating a Google Map which is easily put into any ```<div>``` named ```map_canvas```. Also includes a select box that allows selection of all trips. The current trip is denoted by ```(Current)``` if it exists. I then embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
+Consumes my custom API, creating a Google Map which is easily put into any ```<div>``` named ```map_canvas```. Also populates an optional select box that allows selection of all trips which then refreshes the map. If there is no select box, an input parameter named ``` id ``` is used in the URL to denote which trip to display. If neither the parameter nor the select box exist, then the current trip is displayed. The current trip is denoted by "(Current)" in the select box if it exists. 
 
 ``` map.html ```
-This displays the map and select box wrapped up in html. The json file makes this work. A little CSS formatting included.
+This displays the map and select box wrapped up in html. The json file makes this work. A little CSS formatting included. I have this so I can embed it in an iframe in my blog. If I don't do this, the WordPress theme's CSS will make Google Map's CSS all funky.
+
+``` singlemap.html ```
+This displays a map for a specific trip and does not include the select box. The JSON takes an input parameter in the URL to desplay a specific trip.
 
 ``` add.html ```
 Two simple forms. One adds and starts a new trip. The other adds a GPS location to the current trip. This uses my API and is password protected (kinda). I can use this in Tierra del Fuego if I have WiFi and my SPOT doesn't work to manually add points.  
