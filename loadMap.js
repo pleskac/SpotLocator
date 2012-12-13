@@ -1,10 +1,18 @@
 var infowindow;
 var map;
 
-//jQuery(document).ready(firstLoad);
 jQuery(document).ready(loadSelectBox);
 
 function loadSelectBox(){
+	var element =  document.getElementById('#TripSelectBox');
+	if (typeof(element) == 'undefined' || element == null)
+	{
+	  // does not exist. get the id from the URL and send it to load map.
+	  var urlTripId = getUrlVars()["id"];
+	  loadMap(urlTripId);
+	  return;
+	}
+
 	jQuery.ajax("http://pleskac.org:8080/api/trip/list").done(
 		function(data){
 			tripList = JSON.parse(data);
@@ -30,10 +38,6 @@ function loadSelectBox(){
 function changeMap(){
 	  var id = jQuery("#TripSelectBox").val();
 	  loadMap(id);
-}
-
-function firstLoad(){
-	loadMap(-1);
 }
 
 function loadMap(loadId){
@@ -109,4 +113,12 @@ function createMarker(_position, name, color) {
 		infowindow.setContent(name);
 		infowindow.open(map, this);
 	});
+}
+
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
 }
