@@ -176,8 +176,8 @@ func GetTrip(id int) Trip {
 		details := "<p><strong>" + checkinType + "</strong>  (" + row.Str(0) + ") <br />" +
 			"<em>" + timestamp + "</em><br />" +
 			"Latitude: " + row.Str(2) + "<br />" +
-			"Longitude: " + row.Str(3) + "</ p>" +
-			row.Str(6) + "<br />"
+			"Longitude: " + row.Str(3) + "<br />" +
+			row.Str(6) + "</ p>"
 		//TODO: add related pictures
 
 		//Customizing colors in Go. Could do this in javascript, but I don't like javascript at all
