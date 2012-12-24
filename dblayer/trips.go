@@ -173,7 +173,12 @@ func GetTrip(id int) Trip {
 
 		//Formatting the infowindow bubble.
 		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
-		details := "<p><b>" + checkinType + "</b> <br />" + timestamp + "<br />" + row.Str(6) + "</ p>"
+		details := "<p><strong>" + checkinType + "</strong>  (" + row.Str(0) + ") <br />" +
+			"<em>" + timestamp + "</em><br />" +
+			"Latitude: " + row.Str(2) + "<br />" +
+			"Longitude: " + row.Str(3) + "</ p>" +
+			row.Str(6) + "<br />"
+		//TODO: add related pictures
 
 		//Customizing colors in Go. Could do this in javascript, but I don't like javascript at all
 		color := "Red"
