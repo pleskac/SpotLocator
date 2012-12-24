@@ -167,16 +167,21 @@ func GetTrip(id int) Trip {
 		//Timestamp: Details
 		mytime := time.Unix(row.Int64(4), 0)
 		year, month, day := mytime.Date()
-		hour, min, sec := mytime.Clock()
+		hour, min, _ := mytime.Clock()
 
 		checkinType := row.Str(5)
 
 		//Formatting the infowindow bubble.
-		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%d:%d", mytime.Weekday().String(), month, day, year, hour, min, sec)
+		var timestamp string
+		if min >= 10 {
+			timestamp = fmt.Sprintf("%s, %s %d, %d at %d:%d", mytime.Weekday().String(), month, day, year, hour, min)
+		} else {
+			timestamp = fmt.Sprintf("%s, %s %d, %d at %d:0%d", mytime.Weekday().String(), month, day, year, hour, min)
+		}
 		details := "<p><strong>" + checkinType + "</strong>  (" + row.Str(0) + ") <br />" +
-			"<em>" + timestamp + "</em><br />" +
+			"<em>" + timestamp + "</em><br /><br />" +
 			"Latitude: " + row.Str(2) + "<br />" +
-			"Longitude: " + row.Str(3) + "<br />" +
+			"Longitude: " + row.Str(3) + "<br /><br />" +
 			row.Str(6) + "</ p>"
 		//TODO: add related pictures
 
