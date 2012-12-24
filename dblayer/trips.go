@@ -178,11 +178,16 @@ func GetTrip(id int) Trip {
 		} else {
 			timestamp = fmt.Sprintf("%s, %s %d, %d at %d:0%d", mytime.Weekday().String(), month, day, year, hour, min)
 		}
+		msgDetails := row.Str(6)
+		if msgDetails == "" {
+			msgDetails = "No details available"
+		}
+
 		details := "<p><strong>" + checkinType + "</strong>  (" + row.Str(0) + ") <br />" +
 			"<em>" + timestamp + "</em><br /><br />" +
 			"Latitude: " + row.Str(2) + "<br />" +
 			"Longitude: " + row.Str(3) + "<br /><br />" +
-			row.Str(6) + "</ p>"
+			msgDetails + "</ p>"
 		//TODO: add related pictures
 
 		//Customizing colors in Go. Could do this in javascript, but I don't like javascript at all
