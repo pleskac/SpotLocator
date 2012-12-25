@@ -172,12 +172,8 @@ func GetTrip(id int) Trip {
 		checkinType := row.Str(5)
 
 		//Formatting the infowindow bubble.
-		var timestamp string
-		if min >= 10 {
-			timestamp = fmt.Sprintf("%s, %s %d, %d at %d:%d", mytime.Weekday().String(), month, day, year, hour, min)
-		} else {
-			timestamp = fmt.Sprintf("%s, %s %d, %d at %d:0%d", mytime.Weekday().String(), month, day, year, hour, min)
-		}
+		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:02%d", mytime.Weekday().String(), month, day, year, hour, min)
+
 		msgDetails := row.Str(6)
 		if msgDetails == "" {
 			msgDetails = "No details available"
