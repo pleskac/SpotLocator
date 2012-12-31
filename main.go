@@ -19,6 +19,7 @@ func main() {
 	latestSpotId = dblayer.GetLatestSpotId()
 
 	for {
+		//DO ALL SPOT UPDATES
 		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestSpotId)
 
 		if err != nil {
@@ -28,13 +29,16 @@ func main() {
 		for _, location := range newLocations {
 			fmt.Println("Adding new GPS location", location.MessageType)
 
-			dblayer.AddGPS(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
+			//SPOT returns time in UTC. This will correct the time to the localized time.
+			dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
 
 			if location.Id > latestSpotId {
 				latestSpotId = location.Id
 				dblayer.SaveLatestSpotId(latestSpotId)
 			}
 		}
+
+		//DO OTHER UPDATES FROM OTHER DEVICES 
 
 		//Wait 30 seconds
 		time.Sleep(30000 * time.Millisecond)

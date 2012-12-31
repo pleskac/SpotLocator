@@ -8,11 +8,17 @@ import (
 )
 
 func AddGPSNow(longitude, latitude float64, message, msgType string) {
+	//NOW is in UTC
 	now := time.Now().Unix()
-	AddGPS(longitude, latitude, message, msgType, now)
+	AddGPS_UTC(longitude, latitude, message, msgType, now)
 }
 
-func AddGPS(longitude, latitude float64, message, msgType string, time int64) {
+func AddGPS_UTC(longitude, latitude float64, message, msgType string, utcTime int64) {
+	fixedTime := getTimeZoneTime(longitude, latitude, utcTime)
+	addGPS(longitude, latitude, message, msgType, fixedTime)
+}
+
+func addGPS(longitude, latitude float64, message, msgType string, time int64) {
 	db := Connect()
 	defer db.Close()
 

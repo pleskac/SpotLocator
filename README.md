@@ -68,10 +68,13 @@ This displays the map and select box wrapped up in html. The json file makes thi
 This displays a map for a specific trip and does not include the select box. The JSON takes an input parameter in the URL to desplay a specific trip.
 
 ``` add.html ```
-Two simple forms. One adds and starts a new trip. The other adds a GPS location to the current trip. This uses my API and is password protected (kinda). I can use this in Tierra del Fuego if I have WiFi and my SPOT doesn't work to manually add points.  
+Two simple forms. One adds and starts a new trip. The other adds a GPS location to the current trip. This uses my API and is password protected (kinda). I can use this in Tierra del Fuego if I have WiFi and my SPOT doesn't work to manually add points. 
+
+## Recently Implemented ##
+* Sort dots by time - fixes jagged line issue
+* Save timestamps in the timezone they were created 
 
 ## TODO ##
-* Timestamp is in wrong timezone. Adjust to reflect the browser's timezone?
 * TESTS!!!
 * Move spot.go to new package to allow for reuse
 * Add Foursquare integration
