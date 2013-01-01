@@ -87,8 +87,6 @@ func getMessages(feedId string) ([]Message, error) {
 
 	jsonBlob := spotResp.Resp.FeedMsgResp.Messages.Message
 
-	var list []Message
-
 	fmt.Println("count from json", spotResp.Resp.FeedMsgResp.Count)
 
 	if spotResp.Resp.FeedMsgResp.Count == 1 {
@@ -101,18 +99,20 @@ func getMessages(feedId string) ([]Message, error) {
 		}
 		list := make([]Message, 0)
 		list = append(list, msg)
-		fmt.Println("single message returned!", msg)
+		fmt.Println("single message returned!", len(list))
+		return list, nil
 	} else if spotResp.Resp.FeedMsgResp.Count > 1 {
+		var list []Message
 		//Multiple messages in JSON
 		err := json.Unmarshal(jsonBlob, &list)
 		if err != nil {
 			fmt.Println(err)
 			return nil, err
 		}
-
+		return list, nil
 	}
 
-	return list, nil
+	return nil, nil
 }
 
 func GetNewLocations(feedId string, id int) ([]Message, error) {
