@@ -76,7 +76,7 @@ func getTimeZoneTime(long, lat float64, utcTime int64) (int64, string) {
 		return utcTime, ""
 	}
 
-	timeZone := tzResp.TimeZoneId + " (" + tzResp.TimeZoneName ")"
+	timeZone := tzResp.TimeZoneId + " (" + tzResp.TimeZoneName + ")"
 
 	return utcTime + int64(tzResp.RawOffset+tzResp.DstOffset), timeZone
 }
