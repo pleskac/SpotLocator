@@ -33,9 +33,11 @@ type Trip struct {
 }
 
 type TimeZoneResponse struct {
-	DstOffset float64 `json:"dstOffset"`
-	RawOffset float64 `json:"rawOffset"`
-	Status    string  `json:"status"`
+	DstOffset    float64 `json:"dstOffset"`
+	RawOffset    float64 `json:"rawOffset"`
+	Status       string  `json:"status"`
+	TimeZoneId   string  `json:"timeZoneId"`
+	TimeZoneName string  `json:"timeZoneName"`
 }
 
 func Connect() z_mysql.Conn {
@@ -50,7 +52,7 @@ func Connect() z_mysql.Conn {
 	return db
 }
 
-func getTimeZoneTime(long, lat float64, utcTime int64) int64 {
+func getTimeZoneTime(long, lat float64, utcTime int64) (int64, string) {
 	url := fmt.Sprintf("https://maps.googleapis.com/maps/api/timezone/json?location=%f,%f&timestamp=%d&sensor=false", lat, long, utcTime)
 
 	//https - skip the verification for ease of use
@@ -62,7 +64,7 @@ func getTimeZoneTime(long, lat float64, utcTime int64) int64 {
 	resp, err := client.Get(url)
 	if err != nil {
 		fmt.Println(err)
-		return utcTime
+		return utcTime, ""
 	}
 
 	dec := json.NewDecoder(resp.Body)
@@ -71,8 +73,10 @@ func getTimeZoneTime(long, lat float64, utcTime int64) int64 {
 	tzResp := &TimeZoneResponse{}
 	if err := dec.Decode(tzResp); err != nil {
 		fmt.Println(err)
-		return utcTime
+		return utcTime, ""
 	}
 
-	return utcTime + int64(tzResp.RawOffset+tzResp.DstOffset)
+	timeZone := tzResp.TimeZoneId + " (" + tzResp.TimeZoneName ")"
+
+	return utcTime + int64(tzResp.RawOffset+tzResp.DstOffset), timeZone
 }

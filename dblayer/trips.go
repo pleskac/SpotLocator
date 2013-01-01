@@ -14,11 +14,11 @@ func AddGPSNow(longitude, latitude float64, message, msgType string) {
 }
 
 func AddGPS_UTC(longitude, latitude float64, message, msgType string, utcTime int64) {
-	fixedTime := getTimeZoneTime(longitude, latitude, utcTime)
-	addGPS(longitude, latitude, message, msgType, fixedTime)
+	fixedTime, timeZone := getTimeZoneTime(longitude, latitude, utcTime)
+	addGPS(longitude, latitude, message, msgType, timeZone, fixedTime)
 }
 
-func addGPS(longitude, latitude float64, message, msgType string, time int64) {
+func addGPS(longitude, latitude float64, message, msgType, timeZone string, time int64) {
 	db := Connect()
 	defer db.Close()
 
@@ -40,14 +40,14 @@ func addGPS(longitude, latitude float64, message, msgType string, time int64) {
 
 	//Add the GPS row with data
 	if tripKey == -1 {
-		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, timestamp, type) VALUES (?, ?, ?, ?, ?)")
-		_, err = stmt.Run(longitude, latitude, message, time, msgType)
+		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, timestamp, type, timezone) VALUES (?, ?, ?, ?, ?, ?)")
+		_, err = stmt.Run(longitude, latitude, message, time, msgType, timeZone)
 		if err != nil {
 			panic(err)
 		}
 	} else {
-		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, trip, timestamp, type) VALUES (?, ?, ?, ?, ?, ?)")
-		_, err = stmt.Run(longitude, latitude, message, tripKey, time, msgType)
+		stmt, err := db.Prepare("INSERT INTO gps (longitude, latitude, details, trip, timestamp, type, timezone) VALUES (?, ?, ?, ?, ?, ?, ?)")
+		_, err = stmt.Run(longitude, latitude, message, tripKey, time, msgType, timeZone)
 		if err != nil {
 			panic(err)
 		}
