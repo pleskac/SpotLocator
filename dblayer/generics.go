@@ -74,5 +74,5 @@ func getTimeZoneTime(long, lat float64, utcTime int64) int64 {
 		return utcTime
 	}
 
-	return utcTime - int64(tzResp.RawOffset+tzResp.DstOffset)
+	return utcTime + int64(tzResp.RawOffset+tzResp.DstOffset)
 }
