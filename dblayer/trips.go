@@ -178,7 +178,7 @@ func GetTrip(id int) Trip {
 		checkinType := row.Str(5)
 
 		//Formatting the infowindow bubble.
-		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%02d:%02d", mytime.Weekday().String(), month, day, year, hour, min, sec)
+		timestamp := fmt.Sprintf("%s, %s %d, %d at %d:%02d:%02d<br />%s", mytime.Weekday().String(), month, day, year, hour, min, sec, row.Str(7))
 
 		msgDetails := row.Str(6)
 		if msgDetails == "" {
