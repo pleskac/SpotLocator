@@ -101,7 +101,7 @@ func getMessages(feedId string) ([]Message, error) {
 		}
 		list := make([]Message, 0)
 		list = append(list, msg)
-		fmt.Println("single message returned!")
+		fmt.Println("single message returned!", msg)
 	} else if spotResp.Resp.FeedMsgResp.Count > 1 {
 		//Multiple messages in JSON
 		err := json.Unmarshal(jsonBlob, &list)
