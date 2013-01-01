@@ -186,7 +186,7 @@ func GetTrip(id int) Trip {
 		}
 
 		details := "<p><strong>" + checkinType + "</strong>  (" + row.Str(0) + ") <br />" +
-			"<em>" + timestamp + "</em><br /><br />" +
+			timestamp + "<br /><br />" +
 			"Latitude: " + row.Str(2) + "<br />" +
 			"Longitude: " + row.Str(3) + "<br /><br />" +
 			msgDetails + "</ p>"
