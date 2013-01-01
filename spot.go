@@ -131,5 +131,7 @@ func GetNewLocations(feedId string, id int) ([]Message, error) {
 		}
 	}
 
+	fmt.Println(len(list))
+
 	return list, nil
 }
