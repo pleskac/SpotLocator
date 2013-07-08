@@ -15,6 +15,14 @@ func main() {
 	//API endpoint
 	go endpoint()
 
+	//get users
+	users := dblayer.GetUsers()
+
+	//for every user, update every device
+	for _, user := range users {
+		fmt.Println(user)
+	}
+
 	//update latestSpotId
 	latestSpotId = dblayer.GetLatestSpotId()
 
