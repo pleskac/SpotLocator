@@ -17,6 +17,7 @@ func main() {
 
 	//get users
 	users := dblayer.GetUsers()
+	fmt.Println(users)
 
 	//for every user, update every device
 	for _, user := range users {
