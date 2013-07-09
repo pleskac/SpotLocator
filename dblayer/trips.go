@@ -25,7 +25,7 @@ func addGPS(longitude, latitude float64, message, msgType, timeZone, user string
 	fmt.Println(user)
 
 	//Get the current trip, if it exists
-	query := "SELECT id FROM trips WHERE user = '" + user + "' AND current = 1"
+	query := "SELECT id FROM trips WHERE user_email = '" + user + "' AND current = 1"
 	rows, _, err := db.Query(query)
 	if err != nil {
 		panic(err)
