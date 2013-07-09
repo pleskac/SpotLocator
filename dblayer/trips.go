@@ -151,10 +151,6 @@ func GetTrip(id int) Trip {
 	tripQuery := fmt.Sprintf("SELECT * FROM trips WHERE id = %d", id)
 	gpsQuery := fmt.Sprintf("SELECT * FROM gps WHERE trip = %d ORDER BY timestamp", id)
 
-	if id == 11 || id == 12 {
-		gpsQuery = "SELECT * FROM gps WHERE trip = 11 OR trip = 12 ORDER BY timestamp"
-	}
-
 	rows, _, err := db.Query(tripQuery)
 	if err != nil {
 		panic(err)
