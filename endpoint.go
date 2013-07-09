@@ -82,7 +82,8 @@ func AddTripHandler(w http.ResponseWriter, r *http.Request) {
 	name := vars[tripName]
 
 	if name != "" {
-		dblayer.CreateTrip(name)
+		//TODO: this is hardcoded!
+		dblayer.CreateTrip(name, "", "markpleskac@gmail.com")
 	}
 
 	enc := json.NewEncoder(w)
@@ -93,7 +94,7 @@ func TripListHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 
-	output := dblayer.GetTripList()
+	output := dblayer.GetTripList("markpleskac@gmail.com")
 
 	enc := json.NewEncoder(w)
 	enc.Encode(output)
@@ -103,7 +104,7 @@ func CurrentTripHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 
-	currentTripId := dblayer.GetCurrentTripId()
+	currentTripId := dblayer.GetCurrentTripId("markpleskac@gmail.com")
 	output := dblayer.GetTrip(currentTripId)
 
 	enc := json.NewEncoder(w)
@@ -138,7 +139,7 @@ func TripNameHandler(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	name := vars[tripName]
 
-	id := dblayer.FindTrip(name)
+	id := dblayer.FindTrip(name, "markpleskac@gmail.com")
 	if id < 0 {
 		return
 	}

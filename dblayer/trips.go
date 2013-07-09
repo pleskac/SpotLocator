@@ -18,7 +18,6 @@ func AddGPS_UTC(longitude, latitude float64, message, msgType, user string, utcT
 	addGPS(longitude, latitude, message, msgType, timeZone, user, fixedTime)
 }
 
-//TODO: actually use that user string
 func addGPS(longitude, latitude float64, message, msgType, timeZone, user string, time int64) {
 	db := Connect()
 	defer db.Close()
@@ -26,17 +25,16 @@ func addGPS(longitude, latitude float64, message, msgType, timeZone, user string
 	fmt.Println(user)
 
 	//Get the current trip, if it exists
-	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")
+	query := "SELECT id FROM trips WHERE user = " + user + " AND current = 1"
+	rows, _, err := db.Query(query)
 	if err != nil {
 		panic(err)
 	}
 
 	//Get the foreign key to the current trip
 	tripKey := -1
-	if len(rows) > 1 {
-		fmt.Println("More than one row!!")
-	} else if len(rows) == 0 {
-		fmt.Println("0 rows!")
+	if len(rows) != 1 {
+		tripKey = -1
 	} else {
 		tripKey = (rows[0]).Int(0)
 	}
@@ -58,33 +56,32 @@ func addGPS(longitude, latitude float64, message, msgType, timeZone, user string
 
 }
 
-//TODO: user...
-func CreateTrip(name string) {
+func CreateTrip(name, details, user string) {
 	db := Connect()
 	defer db.Close()
 
 	//End all trips
-	EndTrips()
+	EndTrips(user)
 
 	//Create new trip, set it as current trip
 	fmt.Println("Starting trip", name)
 
 	//Insert new trip
-	stmt, err := db.Prepare("INSERT INTO trips (name, details, current) VALUES (?, ?, ?)")
-	_, err = stmt.Run(name, "", 1)
+	stmt, err := db.Prepare("INSERT INTO trips (name, details, user, current) VALUES (?, ?, ?, ?)")
+	_, err = stmt.Run(name, details, user, 1)
 	if err != nil {
 		panic(err)
 	}
 }
 
-//TODO: user....
-func EndTrips() {
+func EndTrips(user string) {
 	db := Connect()
 	defer db.Close()
 
 	fmt.Println("Ending all trips")
 
-	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")
+	query := "SELECT id FROM trips WHERE current = 1 AND user = " + user
+	rows, _, err := db.Query(query)
 	if err != nil {
 		panic(err)
 	}
@@ -102,33 +99,31 @@ func EndTrips() {
 //TODO: this can be split up and organized better
 //Only allow this to access MySQL, move formatting data somewhere else
 //Also, could default to the current trip, or allow specific trips to be returned, that would allow multiple maps on the site
-func GetCurrentTripId() int {
+func GetCurrentTripId(user string) int {
 	db := Connect()
 	defer db.Close()
 
 	//Get the current trip, if it exists
-	rows, _, err := db.Query("SELECT * FROM trips WHERE current = 1")
+	currentTripQuery := "SELECT * FROM trips WHERE current = 1 AND user = " + user
+	rows, _, err := db.Query(currentTripQuery)
 	if err != nil {
 		panic(err)
 	}
 
-	if len(rows) > 1 {
-		fmt.Println("More than one row!! WRONG!")
-		return -1
-	} else if len(rows) == 0 {
-		fmt.Println("0 rows! No current trip to return")
+	if len(rows) != 1 {
 		return -1
 	}
+
 	id := rows[0].Int(0) //the first(only) row. the first element is the id.
 
 	return id
 }
 
-func FindTrip(name string) int {
+func FindTrip(name, user string) int {
 	db := Connect()
 	defer db.Close()
 
-	query := "SELECT * FROM trips WHERE name LIKE '%" + name + "%'"
+	query := "SELECT * FROM trips WHERE user = " + user + " AND name LIKE '%" + name + "%'"
 
 	rows, _, err := db.Query(query)
 	if err != nil {
@@ -143,7 +138,7 @@ func FindTrip(name string) int {
 	return rows[0].Int(0)
 }
 
-//Do I need the user??
+//Do I need the user??... only for authentication...
 func GetTrip(id int) Trip {
 	if id < 0 {
 		//ids cannot be negative
@@ -216,10 +211,9 @@ func GetTrip(id int) Trip {
 	return myTrip
 }
 
-//TODO: user...
-func GetTripList() []Trip {
+func GetTripList(user string) []Trip {
 	var list []Trip
-	query := "SELECT * FROM trips ORDER BY id DESC"
+	query := "SELECT * FROM trips WHERE user = " + user + " ORDER BY id DESC"
 
 	db := Connect()
 	defer db.Close()
