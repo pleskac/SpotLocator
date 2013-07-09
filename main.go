@@ -16,8 +16,9 @@ func main() {
 	go endpoint()
 
 	//get users
+	fmt.Println("before getting usersqwbn")
 	users := dblayer.GetUsers()
-	fmt.Println("Users", users)
+	fmt.Println("Users:", users)
 
 	//for every user, update every device
 	for _, user := range users {
