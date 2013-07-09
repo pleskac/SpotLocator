@@ -17,7 +17,7 @@ func main() {
 
 	//get users
 	fmt.Println("before getting usersqwbn")
-	users := dblayer.GetUsers()
+	users := dblayer.GetAllUsers()
 	fmt.Println("Users:", users)
 
 	//for every user, update every device
