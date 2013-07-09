@@ -4,6 +4,7 @@ import (
 	"./dblayer"
 	"fmt"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -34,7 +35,7 @@ func main() {
 			fmt.Println("Adding new GPS location", location.MessageType)
 
 			//SPOT returns time in UTC. This will correct the time to the localized time.
-			dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, location.UnixTime)
+			dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, "markpleskac@gmail.com", location.UnixTime)
 
 			if location.Id > latestSpotId {
 				latestSpotId = location.Id
@@ -60,5 +61,39 @@ func newMain() {
 	//for every user, update every device
 	for _, user := range users {
 		fmt.Println(user)
+
+		devices := dblayer.GetDevices(user)
+		for _, device := range devices {
+			//this is just one SPOT or .... something else! 
+			//make it generic!
+			//get a DEVICE struct
+			if device.Type == "SPOT" {
+				fmt.Println(device)
+				myint, conversionErr := strconv.ParseInt(device.MostRecent, 10, 64)
+				if conversionErr != nil {
+					newLocations, err := GetNewLocations(device.Key, int(myint))
+					if err != nil {
+						fmt.Println("Error getting new locations:", err)
+					}
+
+					for _, location := range newLocations {
+						fmt.Println("Adding new GPS location", location.MessageType)
+
+						//SPOT returns time in UTC. This will correct the time to the localized time.
+						//TODO: THIS NEEDS TO INCORPORATE A USER
+						dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, user, location.UnixTime)
+
+						if location.Id > latestSpotId {
+							latestSpotId = location.Id
+							dblayer.SaveLatestSpotId(latestSpotId)
+						}
+					}
+
+				}
+
+			}
+
+		}
+
 	}
 }

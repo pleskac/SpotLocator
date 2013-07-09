@@ -7,20 +7,22 @@ import (
 	"time"
 )
 
-func AddGPSNow(longitude, latitude float64, message, msgType string) {
+func AddGPSNow(longitude, latitude float64, message, msgType, user string) {
 	//NOW is in UTC
 	now := time.Now().Unix()
-	AddGPS_UTC(longitude, latitude, message, msgType, now)
+	AddGPS_UTC(longitude, latitude, message, msgType, user, now)
 }
 
-func AddGPS_UTC(longitude, latitude float64, message, msgType string, utcTime int64) {
+func AddGPS_UTC(longitude, latitude float64, message, msgType, user string, utcTime int64) {
 	fixedTime, timeZone := getTimeZoneTime(longitude, latitude, utcTime)
-	addGPS(longitude, latitude, message, msgType, timeZone, fixedTime)
+	addGPS(longitude, latitude, message, msgType, timeZone, user, fixedTime)
 }
 
-func addGPS(longitude, latitude float64, message, msgType, timeZone string, time int64) {
+func addGPS(longitude, latitude float64, message, msgType, timeZone, user string, time int64) {
 	db := Connect()
 	defer db.Close()
+
+	fmt.Println(user)
 
 	//Get the current trip, if it exists
 	rows, _, err := db.Query("SELECT id FROM trips WHERE current = 1")

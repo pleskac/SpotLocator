@@ -40,6 +40,13 @@ type TimeZoneResponse struct {
 	TimeZoneName string  `json:"timeZoneName"`
 }
 
+type Device struct {
+	UserEmail  string
+	Type       string
+	Key        string
+	MostRecent string
+}
+
 func Connect() z_mysql.Conn {
 	//Set up database connection
 	db := z_mysql.New("tcp", "", "127.0.0.1:3306", "root", "rootroot", "gps")

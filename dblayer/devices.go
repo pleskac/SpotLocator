@@ -7,22 +7,20 @@ import (
 	_ "time"
 )
 
-func GetAllUsers() []string {
-	var users []string
+func GetDevices(user string) []Device {
+	var devices []Device
 	db := Connect()
 	defer db.Close()
 
 	//Get the current trip, if it exists
-	rows, _, err := db.Query("SELECT * FROM users")
+	rows, _, err := db.Query("SELECT * FROM devices WHERE user_email = " + user)
 	if err != nil {
 		panic(err)
 	}
 
 	for _, row := range rows {
-		users = append(users, row.Str(0))
+		devices = append(devices, Device{row.Str(0), row.Str(1), row.Str(2), row.Str(3)})
 	}
 
-	return users
+	return devices
 }
-
-//authenticate functions

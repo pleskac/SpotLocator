@@ -67,7 +67,8 @@ func AddGPSHandler(w http.ResponseWriter, r *http.Request) {
 		standardType = "TRACK"
 	}
 
-	dblayer.AddGPSNow(longFlt, latFlt, "This was sent via iPhone, not SPOT.", standardType)
+	//TODO: FIX THIS!!
+	dblayer.AddGPSNow(longFlt, latFlt, "This was sent via iPhone, not SPOT.", "markpleskac@gmail.com", standardType)
 
 	enc := json.NewEncoder(w)
 	enc.Encode(standardType)
