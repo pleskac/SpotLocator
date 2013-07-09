@@ -213,7 +213,7 @@ func GetTrip(id int) Trip {
 
 func GetTripList(user string) []Trip {
 	var list []Trip
-	query := "SELECT * FROM trips WHERE user = '" + user + "' ORDER BY id DESC"
+	query := "SELECT * FROM trips WHERE user_email = '" + user + "' ORDER BY id DESC"
 
 	db := Connect()
 	defer db.Close()
