@@ -26,7 +26,7 @@ func main() {
 	for {
 		//For every user, update every device
 		for _, user := range users {
-			fmt.Println(user)
+			//fmt.Println(user)
 
 			devices := dblayer.GetDevices(user)
 			//Iterate through all of the users' devices
