@@ -23,41 +23,41 @@ func main() {
 
 	//Get users
 	users := dblayer.GetAllUsers()
+	for {
+		//For every user, update every device
+		for _, user := range users {
+			fmt.Println(user)
 
-	//For every user, update every device
-	for _, user := range users {
-		fmt.Println(user)
+			devices := dblayer.GetDevices(user)
+			//Iterate through all of the users' devices
+			for _, device := range devices {
+				//Device is a SPOT GPS. First supported device.
+				if device.Type == "SPOT" {
+					//Get the latest spot id
+					lastSpotId, conversionErr := strconv.ParseInt(device.MostRecent, 10, 64)
+					if conversionErr != nil {
+						newLocations, err := GetNewLocations(device.Key, int(lastSpotId))
+						if err != nil {
+							fmt.Println("Error getting new locations:", err)
+						}
 
-		devices := dblayer.GetDevices(user)
-		//Iterate through all of the users' devices
-		for _, device := range devices {
-			//Device is a SPOT GPS. First supported device.
-			if device.Type == "SPOT" {
-				//Get the latest spot id
-				lastSpotId, conversionErr := strconv.ParseInt(device.MostRecent, 10, 64)
-				if conversionErr != nil {
-					newLocations, err := GetNewLocations(device.Key, int(lastSpotId))
-					if err != nil {
-						fmt.Println("Error getting new locations:", err)
-					}
+						for _, location := range newLocations {
+							//fmt.Println("Adding new GPS location", location.MessageType)
 
-					for _, location := range newLocations {
-						//fmt.Println("Adding new GPS location", location.MessageType)
+							//SPOT returns time in UTC. This will correct the time to the localized time.
+							dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, user, location.UnixTime)
 
-						//SPOT returns time in UTC. This will correct the time to the localized time.
-						dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, user, location.UnixTime)
-
-						if location.Id > latestSpotId {
-							latestSpotId = location.Id
-							dblayer.SaveLatestSpotId(latestSpotId)
+							if location.Id > latestSpotId {
+								latestSpotId = location.Id
+								dblayer.SaveLatestSpotId(latestSpotId)
+							}
 						}
 					}
-				}
-			} //ELSE IF THIS IS ANOTHER TYPE OF DEVICE, ADD SUPPORT HERE
+				} //ELSE IF THIS IS ANOTHER TYPE OF DEVICE, ADD SUPPORT HERE
+			}
+
 		}
-
 		time.Sleep(30000 * time.Millisecond)
-
 	} //End of the infinite 'for', wait between users. Bad because the more users, the less refresh rate.
 
 	/*
