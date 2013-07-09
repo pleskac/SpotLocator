@@ -18,6 +18,7 @@ func AddGPS_UTC(longitude, latitude float64, message, msgType, user string, utcT
 	addGPS(longitude, latitude, message, msgType, timeZone, user, fixedTime)
 }
 
+//TODO: actually use that user string
 func addGPS(longitude, latitude float64, message, msgType, timeZone, user string, time int64) {
 	db := Connect()
 	defer db.Close()
@@ -57,6 +58,7 @@ func addGPS(longitude, latitude float64, message, msgType, timeZone, user string
 
 }
 
+//TODO: user...
 func CreateTrip(name string) {
 	db := Connect()
 	defer db.Close()
@@ -75,6 +77,7 @@ func CreateTrip(name string) {
 	}
 }
 
+//TODO: user....
 func EndTrips() {
 	db := Connect()
 	defer db.Close()
@@ -95,6 +98,7 @@ func EndTrips() {
 	}
 }
 
+//TODO: user...
 //TODO: this can be split up and organized better
 //Only allow this to access MySQL, move formatting data somewhere else
 //Also, could default to the current trip, or allow specific trips to be returned, that would allow multiple maps on the site
@@ -139,6 +143,7 @@ func FindTrip(name string) int {
 	return rows[0].Int(0)
 }
 
+//Do I need the user??
 func GetTrip(id int) Trip {
 	if id < 0 {
 		//ids cannot be negative
@@ -211,6 +216,7 @@ func GetTrip(id int) Trip {
 	return myTrip
 }
 
+//TODO: user...
 func GetTripList() []Trip {
 	var list []Trip
 	query := "SELECT * FROM trips ORDER BY id DESC"

@@ -18,36 +18,36 @@ func main() {
 
 	//LOL this is so bad
 	go newMain()
+	/*
+		//OLD CODE TO KEEP THIS BEAST RUNNING, KEPT FOR SAFE KEEPING
+		//update latestSpotId
+		latestSpotId = dblayer.GetLatestSpotId()
 
-	//OLD CODE TO KEEP THIS BEAST RUNNING
-	//update latestSpotId
-	latestSpotId = dblayer.GetLatestSpotId()
+		for {
+			//DO ALL SPOT UPDATES
+			newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestSpotId)
 
-	for {
-		//DO ALL SPOT UPDATES
-		newLocations, err := GetNewLocations("0oCHzmaKo1zRkSHQglD2qqXkT2yJPvzpK", latestSpotId)
-
-		if err != nil {
-			fmt.Println("Error getting new locations:", err)
-		}
-
-		for _, location := range newLocations {
-			fmt.Println("Adding new GPS location", location.MessageType)
-
-			//SPOT returns time in UTC. This will correct the time to the localized time.
-			dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, "markpleskac@gmail.com", location.UnixTime)
-
-			if location.Id > latestSpotId {
-				latestSpotId = location.Id
-				dblayer.SaveLatestSpotId(latestSpotId)
+			if err != nil {
+				fmt.Println("Error getting new locations:", err)
 			}
-		}
 
-		//DO OTHER UPDATES FROM OTHER DEVICES 
+			for _, location := range newLocations {
+				fmt.Println("Adding new GPS location", location.MessageType)
 
-		//Wait 30 seconds
-		time.Sleep(30000 * time.Millisecond)
-	}
+				//SPOT returns time in UTC. This will correct the time to the localized time.
+				dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, "markpleskac@gmail.com", location.UnixTime)
+
+				if location.Id > latestSpotId {
+					latestSpotId = location.Id
+					dblayer.SaveLatestSpotId(latestSpotId)
+				}
+			}
+
+			//DO OTHER UPDATES FROM OTHER DEVICES 
+
+			//Wait 30 seconds
+			time.Sleep(30000 * time.Millisecond)
+		}*/
 }
 
 func newMain() {
@@ -55,32 +55,30 @@ func newMain() {
 	//I'm also testing in production. 
 	//No-nos that I'm too lazy to change right now.
 
-	//get users
+	//Get users
 	users := dblayer.GetAllUsers()
 
-	//for every user, update every device
+	//For every user, update every device
 	for _, user := range users {
 		fmt.Println(user)
 
 		devices := dblayer.GetDevices(user)
+		//Iterate through all of the users' devices
 		for _, device := range devices {
-			//this is just one SPOT or .... something else! 
-			//make it generic!
-			//get a DEVICE struct
+			//Device is a SPOT GPS. First supported device.
 			if device.Type == "SPOT" {
-				fmt.Println(device)
-				myint, conversionErr := strconv.ParseInt(device.MostRecent, 10, 64)
+				//Get the latest spot id
+				lastSpotId, conversionErr := strconv.ParseInt(device.MostRecent, 10, 64)
 				if conversionErr != nil {
-					newLocations, err := GetNewLocations(device.Key, int(myint))
+					newLocations, err := GetNewLocations(device.Key, int(lastSpotId))
 					if err != nil {
 						fmt.Println("Error getting new locations:", err)
 					}
 
 					for _, location := range newLocations {
-						fmt.Println("Adding new GPS location", location.MessageType)
+						//fmt.Println("Adding new GPS location", location.MessageType)
 
 						//SPOT returns time in UTC. This will correct the time to the localized time.
-						//TODO: THIS NEEDS TO INCORPORATE A USER
 						dblayer.AddGPS_UTC(location.Longitude, location.Latitude, location.MessageContent, location.MessageType, user, location.UnixTime)
 
 						if location.Id > latestSpotId {
@@ -88,12 +86,11 @@ func newMain() {
 							dblayer.SaveLatestSpotId(latestSpotId)
 						}
 					}
-
 				}
-
-			}
-
+			} //ELSE IF THIS IS ANOTHER TYPE OF DEVICE, ADD SUPPORT HERE
 		}
 
-	}
+		time.Sleep(30000 * time.Millisecond)
+
+	} //End of the infinite 'for', wait between users. Bad because the more users, the less refresh rate.
 }
