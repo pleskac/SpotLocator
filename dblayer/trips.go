@@ -25,7 +25,7 @@ func addGPS(longitude, latitude float64, message, msgType, timeZone, user string
 	fmt.Println(user)
 
 	//Get the current trip, if it exists
-	query := "SELECT id FROM trips WHERE user = " + user + " AND current = 1"
+	query := "SELECT id FROM trips WHERE user = '" + user + "'' AND current = 1"
 	rows, _, err := db.Query(query)
 	if err != nil {
 		panic(err)
@@ -80,7 +80,7 @@ func EndTrips(user string) {
 
 	fmt.Println("Ending all trips")
 
-	query := "SELECT id FROM trips WHERE current = 1 AND user = " + user
+	query := "SELECT id FROM trips WHERE current = 1 AND user = '" + user + "'"
 	rows, _, err := db.Query(query)
 	if err != nil {
 		panic(err)
@@ -104,7 +104,7 @@ func GetCurrentTripId(user string) int {
 	defer db.Close()
 
 	//Get the current trip, if it exists
-	currentTripQuery := "SELECT * FROM trips WHERE current = 1 AND user = " + user
+	currentTripQuery := "SELECT * FROM trips WHERE current = 1 AND user = '" + user + "'"
 	rows, _, err := db.Query(currentTripQuery)
 	if err != nil {
 		panic(err)
@@ -123,7 +123,7 @@ func FindTrip(name, user string) int {
 	db := Connect()
 	defer db.Close()
 
-	query := "SELECT * FROM trips WHERE user = " + user + " AND name LIKE '%" + name + "%'"
+	query := "SELECT * FROM trips WHERE user = '" + user + "'' AND name LIKE '%" + name + "%'"
 
 	rows, _, err := db.Query(query)
 	if err != nil {
@@ -213,7 +213,7 @@ func GetTrip(id int) Trip {
 
 func GetTripList(user string) []Trip {
 	var list []Trip
-	query := "SELECT * FROM trips WHERE user = " + user + " ORDER BY id DESC"
+	query := "SELECT * FROM trips WHERE user = '" + user + "'' ORDER BY id DESC"
 
 	db := Connect()
 	defer db.Close()

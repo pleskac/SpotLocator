@@ -13,7 +13,7 @@ func GetDevices(user string) []Device {
 	defer db.Close()
 
 	//Get the current trip, if it exists
-	rows, _, err := db.Query("SELECT * FROM devices WHERE user_email = " + user)
+	rows, _, err := db.Query("SELECT * FROM devices WHERE user_email = '" + user + "'")
 	if err != nil {
 		panic(err)
 	}
