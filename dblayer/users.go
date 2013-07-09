@@ -1,14 +1,13 @@
 package dblayer
 
 import (
-	"fmt"
+	_ "fmt"
 	_ "github.com/ziutek/mymysql/mysql"
 	_ "github.com/ziutek/mymysql/native"
 	_ "time"
 )
 
 func GetAllUsers() []string {
-	fmt.Println("getting all users")
 	var users []string
 	db := Connect()
 	defer db.Close()

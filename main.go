@@ -15,16 +15,10 @@ func main() {
 	//API endpoint
 	go endpoint()
 
-	//get users
-	fmt.Println("before getting usersqwbn")
-	users := dblayer.GetAllUsers()
-	fmt.Println("Users:", users)
+	//LOL this is so bad
+	go newMain()
 
-	//for every user, update every device
-	for _, user := range users {
-		fmt.Println(user)
-	}
-
+	//OLD CODE TO KEEP THIS BEAST RUNNING
 	//update latestSpotId
 	latestSpotId = dblayer.GetLatestSpotId()
 
@@ -52,5 +46,19 @@ func main() {
 
 		//Wait 30 seconds
 		time.Sleep(30000 * time.Millisecond)
+	}
+}
+
+func newMain() {
+	//I don't have testing, which I could fix.
+	//I'm also testing in production. 
+	//No-nos that I'm too lazy to change right now.
+
+	//get users
+	users := dblayer.GetAllUsers()
+
+	//for every user, update every device
+	for _, user := range users {
+		fmt.Println(user)
 	}
 }
