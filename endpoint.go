@@ -16,7 +16,10 @@ const tripName = "tripName"
 const longitude = "longitude"
 const latitude = "latitude"
 const gpsType = "gpsType"
-const user = "userEmail"
+const email = "userEmail"
+const username = "userName"
+const displayname = "displayName"
+const userpassword = "userPassword"
 
 //JSON endpoints:
 //	/api/trip/id/{ID}		looks up by trip id
@@ -38,7 +41,7 @@ func endpoint() {
 	r.HandleFunc("/api/trip/add/"+password+"/{"+tripName+"}", AddTripHandler)
 	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"}/{"+latitude+"}", AddGPSHandler)
 	r.HandleFunc("/api/gps/add/"+password+"/{"+longitude+"}/{"+latitude+"}/{"+gpsType+"}", AddGPSHandler)
-	r.HandleFunc("/api/user/add/{"+user+"}", AddUserHandler)
+	r.HandleFunc("/api/user/add/"+password+"/{"+email+"}/{"+username+"}/{"+displayname+"}/{"+userpassword+"}", AddUserHandler)
 	http.ListenAndServe(":8080", r)
 }
 
@@ -46,8 +49,10 @@ func AddUserHandler(w http.ResponseWriter, r *http.Request) {
 	// allow cross domain AJAX requests
 	w.Header().Set("Access-Control-Allow-Origin", "http://pleskac.org")
 	vars := mux.Vars(r)
-	useremail := vars[user]
+	useremail := vars[email]
 	fmt.Println(useremail)
+
+	dblayer.AddUser(vars[email], vars[username], vars[displayname], vars[userpassword])
 }
 
 func AddGPSHandler(w http.ResponseWriter, r *http.Request) {

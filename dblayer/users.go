@@ -25,4 +25,16 @@ func GetAllUsers() []string {
 	return users
 }
 
+func AddUser(user, username, display_name, password string) {
+	db := Connect()
+	defer db.Close()
+
+	query := "INSERT INTO users (email, username, display_name, password) VALUES (?, ?, ?, ?)"
+	stmt, err := db.Prepare(query)
+	_, err = stmt.Run(user, username, display_name, password)
+	if err != nil {
+		panic(err)
+	}
+}
+
 //authenticate functions
